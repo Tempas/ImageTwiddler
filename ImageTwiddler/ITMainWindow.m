@@ -55,7 +55,7 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     [self initializeEffectPopupButton];
     [self initializeThreadPopupButton];
     
-    [_resetButton setAlphaValue:0];
+    [self enableControls:YES];
 }
 
 -(void) initializeImages
@@ -146,10 +146,12 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     if (enable)
     {
         _resetButton.alphaValue = 0;
+        _timeInfoView.alphaValue = 0;
     }
     else
     {
         _resetButton.alphaValue = 1;
+        _timeInfoView.alphaValue = 1;
     }
     
     [_renderButton setEnabled:enable];

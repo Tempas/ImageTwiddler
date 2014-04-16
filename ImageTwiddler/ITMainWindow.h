@@ -16,6 +16,8 @@
 @property (weak) IBOutlet NSPopUpButton *threadCountPopupButton;
 @property (weak) IBOutlet NSButton *resetButton;
 @property (weak) IBOutlet NSButton *renderButton;
+@property (weak) IBOutlet NSView *timeInfoView;
+@property (weak) IBOutlet NSTextField *timeLabel;
 
 - (IBAction)renderButtonPressed:(id)sender;
 - (IBAction)resetButtonPressed:(id)sender;
