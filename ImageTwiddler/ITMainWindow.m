@@ -107,15 +107,17 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     if (selectedRow != -1) {
         _detailImageView.image =_images[selectedRow];
         _detailImageView.alphaValue = 1;
+        [self enableControls:YES];
     }
     else {
         _detailImageView.image = nil;
     }
 }
 
+#pragma mark controls logic
+
 - (IBAction)renderButtonPressed:(id)sender {
     [self enableControls:NO];
-    _resetButton.alphaValue = 1;
     
     NSInteger selectedThreadIndex = [_threadCountPopupButton indexOfSelectedItem];
     NSInteger numberOfThreads = pow(2, selectedThreadIndex);
@@ -135,13 +137,21 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 
 - (IBAction)resetButtonPressed:(id)sender {
     [self enableControls:YES];
-    _resetButton.alphaValue = 0;
     
     _detailImageView.image = _images[[_tableView selectedRow]];
 }
 
 -(void) enableControls:(BOOL)enable
 {
+    if (enable)
+    {
+        _resetButton.alphaValue = 0;
+    }
+    else
+    {
+        _resetButton.alphaValue = 1;
+    }
+    
     [_renderButton setEnabled:enable];
     [_threadCountPopupButton setEnabled:enable];
     [_effectPopupButton setEnabled:enable];

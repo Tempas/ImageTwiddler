@@ -819,9 +819,9 @@
                             <constraint firstAttribute="height" constant="48" id="hhI-db-opK"/>
                             <constraint firstAttribute="width" constant="122" id="oOX-n0-hv8"/>
                         </constraints>
-                        <buttonCell key="cell" type="square" title="Go" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fiw-Pd-oUT">
+                        <buttonCell key="cell" type="square" title="Render" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fiw-Pd-oUT">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system" size="29"/>
+                            <font key="font" metaFont="system" size="18"/>
                         </buttonCell>
                         <connections>
                             <action selector="renderButtonPressed:" target="QvC-M9-y7g" id="oDl-Kp-uWH"/>
