@@ -704,14 +704,14 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WIC-x1-qOT">
-                                <rect key="frame" x="219" y="11" width="76" height="26"/>
+                                <rect key="frame" x="220" y="11" width="75" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="fiz-b1-QUw" id="hGo-dq-bdt">
+                                <popUpButtonCell key="cell" type="push" title="1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="fiz-b1-QUw" id="hGo-dq-bdt">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <menu key="menu" title="OtherViews" id="p4r-w9-xQA">
                                         <items>
-                                            <menuItem title="1" state="on" hidden="YES" id="fiz-b1-QUw"/>
+                                            <menuItem title="1" state="on" id="fiz-b1-QUw"/>
                                             <menuItem title="Item 2" id="XCW-yS-K6f"/>
                                             <menuItem title="Item 3" id="6KP-yF-oCk"/>
                                         </items>
@@ -823,6 +823,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system" size="29"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="renderButtonPressed:" target="QvC-M9-y7g" id="oDl-Kp-uWH"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -841,7 +844,9 @@
             </view>
             <connections>
                 <outlet property="detailImageView" destination="lKN-7S-DsW" id="IQq-SK-iKC"/>
+                <outlet property="effectPopupButton" destination="ilL-PA-z1h" id="oi9-sf-Rb7"/>
                 <outlet property="tableView" destination="vpt-pJ-Ed4" id="bXG-fG-uMj"/>
+                <outlet property="threadCountPopupButton" destination="WIC-x1-qOT" id="CNy-jM-b3R"/>
             </connections>
         </window>
     </objects>

@@ -11,6 +11,9 @@
 
 static NSInteger NumberOfImages = 11;
 
+static NSString * GaussianBlurEffectTitle = @"Gaussian Blur";
+static NSString * BlackAndWhiteEffectTitle = @"Black and White";
+
 @interface ITMainWindow()
 
 @property (nonatomic, retain) NSMutableArray *images;
@@ -35,11 +38,19 @@ static NSInteger NumberOfImages = 11;
     if (self)
     {
         [self initializeImages];
+
         _detailImageView.image = nil;
         _detailImageView.imageScaling = NSScaleProportionally;
     }
     
     return self;
+}
+
+-(void) awakeFromNib
+{
+    [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    [self initializeEffectPopupButton];
+    [self initializeThreadPopupButton];
 }
 
 -(void) initializeImages
@@ -51,6 +62,18 @@ static NSInteger NumberOfImages = 11;
         NSImage *image = [NSImage imageNamed:imageName];
         [_images addObject:image];
     }
+}
+
+-(void) initializeThreadPopupButton
+{
+    [_threadCountPopupButton removeAllItems];
+    [_threadCountPopupButton addItemsWithTitles:@[@"1", @"2", @"4", @"8", @"16"]];
+}
+
+-(void) initializeEffectPopupButton
+{
+    [_effectPopupButton removeAllItems];
+    [_effectPopupButton addItemsWithTitles:@[BlackAndWhiteEffectTitle, GaussianBlurEffectTitle]];
 }
 
 
@@ -85,7 +108,8 @@ static NSInteger NumberOfImages = 11;
     }
 }
 
-
-
-
+- (IBAction)renderButtonPressed:(id)sender {
+    
+    
+}
 @end

@@ -12,5 +12,8 @@
 
 @property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet NSImageView *detailImageView;
+@property (weak) IBOutlet NSPopUpButton *effectPopupButton;
+@property (weak) IBOutlet NSPopUpButton *threadCountPopupButton;
 
+- (IBAction)renderButtonPressed:(id)sender;
 @end
