@@ -131,6 +131,15 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     
     ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:effectToApply toSourceImage:maskRef withThreads:numberOfThreads];
     
+    // get and set duration text
+    int maxDigitsAfterDecimal = 4; // here's where you set the dp
+    NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
+    [nf setMaximumFractionDigits:maxDigitsAfterDecimal];
+    [nf setMinimumIntegerDigits:1];
+    NSString * trimmed = [nf stringFromNumber:[NSNumber numberWithDouble:result.calculationDuration]];
+    _timeLabel.stringValue = trimmed;
+    
+    // get and set the resulting image
     NSImage *resultImage = [[NSImage alloc] initWithCGImage:result.image size:selectedImage.size];
     _detailImageView.image = resultImage;
 }

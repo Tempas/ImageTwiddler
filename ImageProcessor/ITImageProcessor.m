@@ -21,19 +21,23 @@
 
 +(ITRenderedImageObject *) ApplyEffect:(ITImageEffect)effect toSourceImage:(CGImageRef)source withThreads:(NSInteger)threads
 {
+    NSDate *start = [NSDate date];
+    ITRenderedImageObject *returnObject;
     switch (effect) {
         case ITImageEffectBlackAndWhite:
-            return [ITImageProcessor ApplyBlackAndWhiteToImage:source withThreads:threads];
+            returnObject = [ITImageProcessor ApplyBlackAndWhiteToImage:source withThreads:threads];
             break;
             
         case ITImageEffectGaussianBlur:
-            return [ITImageProcessor ApplyGaussianBlurToImage:source withThreads:threads];
-            
+            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withThreads:threads];
         default:
             break;
     }
     
-    return NULL;
+    NSTimeInterval timeInterval = [start timeIntervalSinceNow];
+    returnObject.calculationDuration = timeInterval * -1;
+    
+    return returnObject;
 }
 
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withThreads:(NSInteger)threads
