@@ -8,6 +8,9 @@
 
 #import "ITMainWindow.h"
 #import "ITImageTableCellView.h"
+#import "EffectsConstants.h"
+#import "ITImageProcessor.h"
+#import "ITRenderedImageObject.h"
 
 static NSInteger NumberOfImages = 11;
 
@@ -109,7 +112,19 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 }
 
 - (IBAction)renderButtonPressed:(id)sender {
+    NSInteger selectedThreadIndex = [_threadCountPopupButton indexOfSelectedItem];
+    NSInteger numberOfThreads = pow(2, selectedThreadIndex);
     
+    ITImageEffect effectToApply = (ITImageEffect)[_effectPopupButton indexOfSelectedItem];
     
+    NSImage *selectedImage = _images[[_tableView selectedRow]];
+    CGImageSourceRef source;
+    source = CGImageSourceCreateWithData((__bridge CFDataRef)[selectedImage TIFFRepresentation], NULL);
+    CGImageRef maskRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
+    
+    ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:effectToApply toSourceImage:maskRef withThreads:numberOfThreads];
+    
+    NSImage *resultImage = [[NSImage alloc] initWithCGImage:result.image size:selectedImage.size];
+    _detailImageView.image = resultImage;
 }
 @end

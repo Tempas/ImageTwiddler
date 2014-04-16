@@ -20,6 +20,8 @@
 		941C247618FDC82A0054B439 /* ImageTwiddlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 941C247518FDC82A0054B439 /* ImageTwiddlerTests.m */; };
 		941C248118FDC99A0054B439 /* ITMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 941C248018FDC99A0054B439 /* ITMainWindow.m */; };
 		941C248618FED8BE0054B439 /* ITImageTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 941C248518FED8BE0054B439 /* ITImageTableCellView.m */; };
+		941C248E18FF1DE30054B439 /* ITImageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 941C248D18FF1DE30054B439 /* ITImageProcessor.m */; };
+		941C249218FF20B40054B439 /* ITRenderedImageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 941C249118FF20B40054B439 /* ITRenderedImageObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,11 @@
 		941C248018FDC99A0054B439 /* ITMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITMainWindow.m; sourceTree = "<group>"; };
 		941C248418FED8BE0054B439 /* ITImageTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITImageTableCellView.h; sourceTree = "<group>"; };
 		941C248518FED8BE0054B439 /* ITImageTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITImageTableCellView.m; sourceTree = "<group>"; };
+		941C248A18FF1C7F0054B439 /* EffectsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EffectsConstants.h; sourceTree = "<group>"; };
+		941C248C18FF1DE30054B439 /* ITImageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITImageProcessor.h; path = ImageProcessor/ITImageProcessor.h; sourceTree = SOURCE_ROOT; };
+		941C248D18FF1DE30054B439 /* ITImageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITImageProcessor.m; path = ImageProcessor/ITImageProcessor.m; sourceTree = SOURCE_ROOT; };
+		941C249018FF20B40054B439 /* ITRenderedImageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITRenderedImageObject.h; sourceTree = "<group>"; };
+		941C249118FF20B40054B439 /* ITRenderedImageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITRenderedImageObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,9 +130,10 @@
 			children = (
 				941C245D18FDC82A0054B439 /* ITAppDelegate.h */,
 				941C245E18FDC82A0054B439 /* ITAppDelegate.m */,
+				941C248A18FF1C7F0054B439 /* EffectsConstants.h */,
 				941C248218FDC99E0054B439 /* Main Window */,
+				941C248B18FF1DB20054B439 /* Image Processor */,
 				941C246318FDC82A0054B439 /* Images.xcassets */,
-				941C248918FEE0B10054B439 /* New Group */,
 				941C245218FDC82A0054B439 /* Supporting Files */,
 			);
 			path = ImageTwiddler;
@@ -181,11 +189,23 @@
 			name = TableCellView;
 			sourceTree = "<group>";
 		};
-		941C248918FEE0B10054B439 /* New Group */ = {
+		941C248B18FF1DB20054B439 /* Image Processor */ = {
 			isa = PBXGroup;
 			children = (
+				941C248F18FF20930054B439 /* RenderedImageObject */,
+				941C248C18FF1DE30054B439 /* ITImageProcessor.h */,
+				941C248D18FF1DE30054B439 /* ITImageProcessor.m */,
 			);
-			name = "New Group";
+			name = "Image Processor";
+			sourceTree = "<group>";
+		};
+		941C248F18FF20930054B439 /* RenderedImageObject */ = {
+			isa = PBXGroup;
+			children = (
+				941C249018FF20B40054B439 /* ITRenderedImageObject.h */,
+				941C249118FF20B40054B439 /* ITRenderedImageObject.m */,
+			);
+			name = RenderedImageObject;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,7 +309,9 @@
 			files = (
 				941C248618FED8BE0054B439 /* ITImageTableCellView.m in Sources */,
 				941C245818FDC82A0054B439 /* main.m in Sources */,
+				941C248E18FF1DE30054B439 /* ITImageProcessor.m in Sources */,
 				941C245F18FDC82A0054B439 /* ITAppDelegate.m in Sources */,
+				941C249218FF20B40054B439 /* ITRenderedImageObject.m in Sources */,
 				941C248118FDC99A0054B439 /* ITMainWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
