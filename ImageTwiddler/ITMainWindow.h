@@ -14,6 +14,10 @@
 @property (weak) IBOutlet NSImageView *detailImageView;
 @property (weak) IBOutlet NSPopUpButton *effectPopupButton;
 @property (weak) IBOutlet NSPopUpButton *threadCountPopupButton;
+@property (weak) IBOutlet NSButton *resetButton;
+@property (weak) IBOutlet NSButton *renderButton;
 
 - (IBAction)renderButtonPressed:(id)sender;
+- (IBAction)resetButtonPressed:(id)sender;
+
 @end

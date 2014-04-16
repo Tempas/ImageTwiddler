@@ -669,11 +669,11 @@
         <window title="ImageTwiddler" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="ITMainWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="364" y="56" width="624" height="451"/>
+            <rect key="contentRect" x="364" y="56" width="744" height="451"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
-            <value key="minSize" type="size" width="650" height="450"/>
+            <value key="minSize" type="size" width="750" height="450"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="624" height="451"/>
+                <rect key="frame" x="0.0" y="0.0" width="744" height="451"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="bCB-G8-Qv3">
@@ -808,7 +808,7 @@
                         </tableHeaderView>
                     </scrollView>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lKN-7S-DsW">
-                        <rect key="frame" x="139" y="125" width="473" height="309"/>
+                        <rect key="frame" x="139" y="125" width="593" height="309"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" imageFrameStyle="grayBezel" id="YlF-VW-haH"/>
                     </imageView>
@@ -827,11 +827,27 @@
                             <action selector="renderButtonPressed:" target="QvC-M9-y7g" id="oDl-Kp-uWH"/>
                         </connections>
                     </button>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="KpV-Zn-Jw5">
+                        <rect key="frame" x="608" y="31" width="122" height="48"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="48" id="OG0-83-ysP"/>
+                            <constraint firstAttribute="width" constant="122" id="Rik-oz-nsv"/>
+                        </constraints>
+                        <buttonCell key="cell" type="square" title="Reset" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7cw-ZU-fxg">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system" size="18"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="resetButtonPressed:" target="QvC-M9-y7g" id="IWa-Xa-UR7"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="bCB-G8-Qv3" secondAttribute="bottom" constant="20" id="HcM-IZ-eWE"/>
                     <constraint firstItem="lKN-7S-DsW" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="HwU-94-6lB"/>
                     <constraint firstItem="l6L-03-eFs" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="-1" id="JoO-2U-Ypq"/>
+                    <constraint firstAttribute="bottom" secondItem="KpV-Zn-Jw5" secondAttribute="bottom" constant="31" id="MDJ-MY-jw4"/>
                     <constraint firstAttribute="bottom" secondItem="l6L-03-eFs" secondAttribute="bottom" constant="-1" id="NUX-sc-dxv"/>
                     <constraint firstItem="lKN-7S-DsW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="142" id="PCm-zF-EUU"/>
                     <constraint firstAttribute="bottom" secondItem="lKN-7S-DsW" secondAttribute="bottom" constant="128" id="PGP-a7-Edb"/>
@@ -840,11 +856,14 @@
                     <constraint firstItem="bCB-G8-Qv3" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="142" id="keJ-tB-lBf"/>
                     <constraint firstAttribute="trailing" secondItem="lKN-7S-DsW" secondAttribute="trailing" constant="15" id="lDl-jm-xIf"/>
                     <constraint firstAttribute="bottom" secondItem="enE-Fx-Nzf" secondAttribute="bottom" constant="31" id="mRs-4z-hP6"/>
+                    <constraint firstItem="KpV-Zn-Jw5" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="608" id="qxy-uf-tSz"/>
                 </constraints>
             </view>
             <connections>
                 <outlet property="detailImageView" destination="lKN-7S-DsW" id="IQq-SK-iKC"/>
                 <outlet property="effectPopupButton" destination="ilL-PA-z1h" id="oi9-sf-Rb7"/>
+                <outlet property="renderButton" destination="enE-Fx-Nzf" id="uug-GB-iWK"/>
+                <outlet property="resetButton" destination="KpV-Zn-Jw5" id="rFr-Q0-zm8"/>
                 <outlet property="tableView" destination="vpt-pJ-Ed4" id="bXG-fG-uMj"/>
                 <outlet property="threadCountPopupButton" destination="WIC-x1-qOT" id="CNy-jM-b3R"/>
             </connections>

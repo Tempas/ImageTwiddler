@@ -54,6 +54,8 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
     [self initializeEffectPopupButton];
     [self initializeThreadPopupButton];
+    
+    [_resetButton setAlphaValue:0];
 }
 
 -(void) initializeImages
@@ -112,6 +114,9 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 }
 
 - (IBAction)renderButtonPressed:(id)sender {
+    [self enableControls:NO];
+    _resetButton.alphaValue = 1;
+    
     NSInteger selectedThreadIndex = [_threadCountPopupButton indexOfSelectedItem];
     NSInteger numberOfThreads = pow(2, selectedThreadIndex);
     
@@ -126,5 +131,19 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     
     NSImage *resultImage = [[NSImage alloc] initWithCGImage:result.image size:selectedImage.size];
     _detailImageView.image = resultImage;
+}
+
+- (IBAction)resetButtonPressed:(id)sender {
+    [self enableControls:YES];
+    _resetButton.alphaValue = 0;
+    
+    _detailImageView.image = _images[[_tableView selectedRow]];
+}
+
+-(void) enableControls:(BOOL)enable
+{
+    [_renderButton setEnabled:enable];
+    [_threadCountPopupButton setEnabled:enable];
+    [_effectPopupButton setEnabled:enable];
 }
 @end
