@@ -9,6 +9,9 @@
 #import "ITImageProcessor.h"
 #import "ITRenderedImageObject.h"
 
+static NSInteger bytesPerPixel = 4;
+static NSInteger bitsPerComponent = 8;
+
 @interface ITImageProcessor()
 
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withThreads:(NSInteger) threads;
@@ -49,15 +52,14 @@
 {
     // Thanks: http://brandontreb.com/image-manipulation-retrieving-and-updating-pixel-values-for-a-uiimage/
 
-    NSUInteger width = CGImageGetWidth(source);
-    NSUInteger height = CGImageGetHeight(source);
-    NSUInteger totalBytes = width * height;
+    NSInteger width = CGImageGetWidth(source);
+    NSInteger height = CGImageGetHeight(source);
+    NSInteger totalBytes = width * height;
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     Byte *rawData = malloc(height * width * 4);
-    NSUInteger bytesPerPixel = 4;
     NSUInteger bytesPerRow = bytesPerPixel * width;
-    NSUInteger bitsPerComponent = 8;
+    
     CGContextRef context = CGBitmapContextCreate(rawData, width, height,
                                                  bitsPerComponent, bytesPerRow, colorSpace,
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
@@ -65,17 +67,31 @@
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), source);
     CGContextRelease(context);
     
+    dispatch_group_t myGroup = dispatch_group_create();
+    
     int byteIndex = 0;
-    for (int ii = 0 ; ii < totalBytes ; ++ii)
+    for (NSInteger t = 0; t < threads; t++)
     {
-        int grey = (rawData[byteIndex] + rawData[byteIndex+1] + rawData[byteIndex+2]) / 3;
+        __block NSInteger threadByteIndex = byteIndex;
+        dispatch_group_async(myGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            for (NSInteger ii = 0; ii < totalBytes/threads ; ii++ )
+            {
+                int grey = (rawData[threadByteIndex] + rawData[threadByteIndex+1] + rawData[threadByteIndex+2]) / 3;
+                
+                rawData[threadByteIndex] = grey;
+                rawData[threadByteIndex+1] = grey;
+                rawData[threadByteIndex+2] = grey;
+                
+                threadByteIndex += 4;
+            }
         
-        rawData[byteIndex] = grey;
-        rawData[byteIndex+1] = grey;
-        rawData[byteIndex+2] = grey;
+        });
         
-        byteIndex += 4;
+        byteIndex += totalBytes/threads * bytesPerPixel;
     }
+    
+    
+    dispatch_group_wait(myGroup, DISPATCH_TIME_FOREVER);
     
     CGContextRef ctx;
     ctx = CGBitmapContextCreate(rawData,
