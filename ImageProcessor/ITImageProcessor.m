@@ -74,7 +74,7 @@ static NSInteger bitsPerComponent = 8;
     {
         __block NSInteger threadByteIndex = byteIndex;
         dispatch_group_async(myGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            for (NSInteger ii = 0; ii < totalBytes/threads ; ii++ )
+            for (NSInteger i = 0; i < totalBytes/threads ; i++ )
             {
                 int grey = (rawData[threadByteIndex] + rawData[threadByteIndex+1] + rawData[threadByteIndex+2]) / 3;
                 
