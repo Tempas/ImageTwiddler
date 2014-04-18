@@ -18,6 +18,7 @@
 @property (weak) IBOutlet NSButton *renderButton;
 @property (weak) IBOutlet NSView *timeInfoView;
 @property (weak) IBOutlet NSTextField *timeLabel;
+@property (weak) IBOutlet NSTextField *dimensionLabel;
 
 - (IBAction)renderButtonPressed:(id)sender;
 - (IBAction)resetButtonPressed:(id)sender;

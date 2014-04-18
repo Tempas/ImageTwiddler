@@ -52,6 +52,8 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 -(void) awakeFromNib
 {
     [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+    _dimensionLabel.layer.cornerRadius = 30;
+    _dimensionLabel.layer.masksToBounds = YES;
     [self initializeEffectPopupButton];
     [self initializeThreadPopupButton];
     
@@ -81,6 +83,13 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     [_effectPopupButton addItemsWithTitles:@[BlackAndWhiteEffectTitle, GaussianBlurEffectTitle]];
 }
 
+-(void) setDimensionLabelText
+{
+    CGSize imageSize = _detailImageView.image.size;
+    NSString * dimensionText = [NSString stringWithFormat:@"%dx%d", (int)imageSize.width, (int)imageSize.height];
+    _dimensionLabel.stringValue = dimensionText;
+}
+
 
 #pragma mark NSTableView datasource methods
 
@@ -107,6 +116,7 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     if (selectedRow != -1) {
         _detailImageView.image =_images[selectedRow];
         _detailImageView.alphaValue = 1;
+        [self setDimensionLabelText];
         [self enableControls:YES];
     }
     else {

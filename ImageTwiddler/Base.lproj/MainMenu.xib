@@ -708,7 +708,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="fiz-b1-QUw" id="hGo-dq-bdt">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" title="OtherViews" id="p4r-w9-xQA">
                                         <items>
                                             <menuItem title="1" state="on" id="fiz-b1-QUw"/>
@@ -723,7 +723,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Gaussian Blur" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Z8j-fY-yV1" id="ynO-b6-acf">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" title="OtherViews" id="aYj-Rm-9bB">
                                         <items>
                                             <menuItem title="Gaussian Blur" state="on" id="Z8j-fY-yV1"/>
@@ -798,7 +798,7 @@
                             <rect key="frame" x="-100" y="-100" width="0.0" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="37" horizontal="NO" id="e5t-cm-BzM">
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="e5t-cm-BzM">
                             <rect key="frame" x="-15" y="17" width="16" height="0.0"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
@@ -884,6 +884,19 @@
                             <constraint firstAttribute="width" constant="231" id="W7s-mA-mrM"/>
                         </constraints>
                     </customView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vaf-Rs-ReJ">
+                        <rect key="frame" x="865" y="362" width="106" height="19"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="106" id="7zO-er-4AC"/>
+                            <constraint firstAttribute="height" constant="19" id="abo-3H-PXy"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="2525 x 1567" drawsBackground="YES" id="6jq-4E-DdX">
+                            <font key="font" metaFont="cellTitle"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="bCB-G8-Qv3" secondAttribute="bottom" constant="20" id="HcM-IZ-eWE"/>
@@ -891,9 +904,11 @@
                     <constraint firstItem="l6L-03-eFs" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="-1" id="JoO-2U-Ypq"/>
                     <constraint firstAttribute="bottom" secondItem="KpV-Zn-Jw5" secondAttribute="bottom" constant="31" id="MDJ-MY-jw4"/>
                     <constraint firstAttribute="bottom" secondItem="l6L-03-eFs" secondAttribute="bottom" constant="-1" id="NUX-sc-dxv"/>
+                    <constraint firstAttribute="trailing" secondItem="vaf-Rs-ReJ" secondAttribute="trailing" constant="26" id="P4U-Yo-iWb"/>
                     <constraint firstItem="lKN-7S-DsW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="142" id="PCm-zF-EUU"/>
                     <constraint firstAttribute="bottom" secondItem="lKN-7S-DsW" secondAttribute="bottom" constant="128" id="PGP-a7-Edb"/>
                     <constraint firstItem="l6L-03-eFs" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="-1" id="cAv-Qx-HDT"/>
+                    <constraint firstItem="vaf-Rs-ReJ" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="31" id="cUH-RY-R6o"/>
                     <constraint firstItem="SxH-CA-tA5" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="751" id="fBs-Jq-sWd"/>
                     <constraint firstItem="enE-Fx-Nzf" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="468" id="ibs-26-Era"/>
                     <constraint firstItem="bCB-G8-Qv3" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="142" id="keJ-tB-lBf"/>
@@ -905,6 +920,7 @@
             </view>
             <connections>
                 <outlet property="detailImageView" destination="lKN-7S-DsW" id="IQq-SK-iKC"/>
+                <outlet property="dimensionLabel" destination="vaf-Rs-ReJ" id="Bbi-rm-gzu"/>
                 <outlet property="effectPopupButton" destination="ilL-PA-z1h" id="oi9-sf-Rb7"/>
                 <outlet property="renderButton" destination="enE-Fx-Nzf" id="uug-GB-iWK"/>
                 <outlet property="resetButton" destination="KpV-Zn-Jw5" id="rFr-Q0-zm8"/>
