@@ -45,29 +45,8 @@ static NSInteger GaussianRadius = 10;
     return returnObject;
 }
 
-// The pseudo code that we'll use to get the 1 thread gaussian blur implementation
-// taken from http://blog.ivank.net/fastest-gaussian-blur.html#results
 
-// source channel, target channel, width, height, radius
-//
-//    function gaussBlur_1 (scl, tcl, w, h, r)
-//    {
-//            var gr = r*0.41;
-//            for(var i=0; i<h; i++)
-//                    for(var j=0; j<w; j++) {
-//                            var fx = Math.max(j-r,   0), fy = Math.max(i-r,   0);
-//                            var tx = Math.min(j+r+1, w), ty = Math.min(i+r+1, h);
-//                            var val = 0;
-//                            for(var y = fy; y<ty; y++)
-//                                    for(var x = fx; x<tx; x++)
-//                                        {
-//                                                var dsq = (x-j)*(x-j)+(y-i)*(y-i);
-//                                                var wght = Math.exp( -dsq / (2*gr*gr) ) / (Math.PI*2*gr*gr);
-//                                                val += scl[y*w+x] * wght;
-//                                            }
-//                            tcl[i*w+j] = val;
-//                        }
-//    }
+// thanks to http://blog.ivank.net/fastest-gaussian-blur.html#results
 
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withThreads:(NSInteger)threads
 {
