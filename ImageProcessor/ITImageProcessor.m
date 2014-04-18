@@ -12,11 +12,13 @@
 static NSInteger bytesPerPixel = 4;
 static NSInteger bitsPerComponent = 8;
 
+static NSInteger GaussianRadius = 10;
+
 @interface ITImageProcessor()
 
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withThreads:(NSInteger) threads;
 +(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger) threads;
-+(Byte *) RawDataForImage: (CGImageRef)image;
+
 
 @end
 
@@ -43,9 +45,99 @@ static NSInteger bitsPerComponent = 8;
     return returnObject;
 }
 
+// The pseudo code that we'll use to get the 1 thread gaussian blur implementation
+// taken from http://blog.ivank.net/fastest-gaussian-blur.html#results
+
+// source channel, target channel, width, height, radius
+//
+//    function gaussBlur_1 (scl, tcl, w, h, r)
+//    {
+//            var gr = r*0.41;
+//            for(var i=0; i<h; i++)
+//                    for(var j=0; j<w; j++) {
+//                            var fx = Math.max(j-r,   0), fy = Math.max(i-r,   0);
+//                            var tx = Math.min(j+r+1, w), ty = Math.min(i+r+1, h);
+//                            var val = 0;
+//                            for(var y = fy; y<ty; y++)
+//                                    for(var x = fx; x<tx; x++)
+//                                        {
+//                                                var dsq = (x-j)*(x-j)+(y-i)*(y-i);
+//                                                var wght = Math.exp( -dsq / (2*gr*gr) ) / (Math.PI*2*gr*gr);
+//                                                val += scl[y*w+x] * wght;
+//                                            }
+//                            tcl[i*w+j] = val;
+//                        }
+//    }
+
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withThreads:(NSInteger)threads
 {
-    return NULL;
+    NSInteger width = CGImageGetWidth(source);
+    NSInteger height = CGImageGetHeight(source);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    Byte *rawData = malloc(height * width * 4);
+    NSUInteger bytesPerRow = bytesPerPixel * width;
+    
+    CGContextRef context = CGBitmapContextCreate(rawData, width, height,
+                                                 bitsPerComponent, bytesPerRow, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), source);
+    CGContextRelease(context);
+    
+    Byte * destData = malloc(height * width * 4);
+    
+    double gr = GaussianRadius * 0.41;
+    
+    for (NSInteger i = 0; i < height; i++)
+    {
+        for (NSInteger j = 0; j < width; j ++)
+        {
+            NSInteger fx = MAX(j - GaussianRadius, 0);
+            NSInteger fy = MAX(i - GaussianRadius, 0);
+            NSInteger tx = MIN(j + GaussianRadius + 1, width);
+            NSInteger ty = MIN(i + GaussianRadius + 1, height);
+            
+            double pixelRValue = 0;
+            double pixelGValue = 0;
+            double pixelBValue = 0;
+            
+            for (NSInteger y = fy; y < ty; y++ )
+            {
+                for (NSInteger x = fx; x < tx; x++)
+                {
+                    NSInteger dsq = (x-j) * (x-j) + (y-i) * (y-i);
+                    double weight = exp(-dsq / (2 * gr * gr)) / (M_PI * 2 * gr * gr);
+                    pixelRValue += rawData[bytesPerPixel * (y*width+x)] * weight;
+                    pixelBValue += rawData[bytesPerPixel * (y*width+x) + 1] * weight;
+                    pixelGValue += rawData[bytesPerPixel * (y*width+x) + 2] * weight;
+                }
+                
+                destData[(i * width + j) * bytesPerPixel] = pixelRValue;
+                destData[(i * width + j) * bytesPerPixel + 1] = pixelBValue;
+                destData[(i * width + j) * bytesPerPixel + 2] = pixelGValue;
+                destData[(i * width + j) * bytesPerPixel + 3] = rawData[(i * width + j) * bytesPerPixel + 3];
+            }
+        }
+    }
+
+    CGContextRef ctx;
+    ctx = CGBitmapContextCreate(destData,
+                                width,
+                                height,
+                                8,
+                                bytesPerRow,
+                                colorSpace,
+                                kCGImageAlphaPremultipliedLast );
+    
+    CGColorSpaceRelease(colorSpace);
+    
+    CGImageRef imageRef = CGBitmapContextCreateImage (ctx);
+    
+    
+    return [[ITRenderedImageObject alloc] initWithImage:imageRef
+                                           calcDuration:0
+                                        numberOfThreads:threads];
 }
 
 +(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger)threads
@@ -114,9 +206,6 @@ static NSInteger bitsPerComponent = 8;
 
 #pragma mark helper methods
 
-+(Byte *)RawDataForImage:(CGImageRef)image
-{
-    return nil;
-}
+
 
 @end
