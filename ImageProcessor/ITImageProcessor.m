@@ -93,37 +93,47 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     
     double gr = radius * 0.41;
     
-    for (NSInteger i = 0; i < height; i++)
+    dispatch_group_t myGroup = dispatch_group_create();
+    
+    for (NSInteger t = 0; t < threads; t++)
     {
-        for (NSInteger j = 0; j < width; j ++)
-        {
-            NSInteger fx = MAX(j - radius, 0);
-            NSInteger fy = MAX(i - radius, 0);
-            NSInteger tx = MIN(j + radius + 1, width);
-            NSInteger ty = MIN(i + radius + 1, height);
-            
-            double pixelRValue = 0;
-            double pixelGValue = 0;
-            double pixelBValue = 0;
-            
-            for (NSInteger y = fy; y < ty; y++ )
+        dispatch_group_async(myGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+
+            for (NSInteger i = t*height/threads; i < height * ((t+1)/(double)threads) ; i++)
             {
-                for (NSInteger x = fx; x < tx; x++)
+                for (NSInteger j = 0; j < width; j ++)
                 {
-                    NSInteger dsq = (x-j) * (x-j) + (y-i) * (y-i);
-                    double weight = exp(-dsq / (2 * gr * gr)) / (M_PI * 2 * gr * gr);
-                    pixelRValue += rawData[bytesPerPixel * (y*width+x)] * weight;
-                    pixelBValue += rawData[bytesPerPixel * (y*width+x) + 1] * weight;
-                    pixelGValue += rawData[bytesPerPixel * (y*width+x) + 2] * weight;
+                    NSInteger fx = MAX(j - radius, 0);
+                    NSInteger fy = MAX(i - radius, 0);
+                    NSInteger tx = MIN(j + radius + 1, width);
+                    NSInteger ty = MIN(i + radius + 1, height);
+                    
+                    double pixelRValue = 0;
+                    double pixelGValue = 0;
+                    double pixelBValue = 0;
+                    
+                    for (NSInteger y = fy; y < ty; y++ )
+                    {
+                        for (NSInteger x = fx; x < tx; x++)
+                        {
+                            NSInteger dsq = (x-j) * (x-j) + (y-i) * (y-i);
+                            double weight = exp(-dsq / (2 * gr * gr)) / (M_PI * 2 * gr * gr);
+                            pixelRValue += rawData[bytesPerPixel * (y*width+x)] * weight;
+                            pixelBValue += rawData[bytesPerPixel * (y*width+x) + 1] * weight;
+                            pixelGValue += rawData[bytesPerPixel * (y*width+x) + 2] * weight;
+                        }
+                        
+                        destData[(i * width + j) * bytesPerPixel] = pixelRValue;
+                        destData[(i * width + j) * bytesPerPixel + 1] = pixelBValue;
+                        destData[(i * width + j) * bytesPerPixel + 2] = pixelGValue;
+                        destData[(i * width + j) * bytesPerPixel + 3] = rawData[(i * width + j) * bytesPerPixel + 3];
+                    }
                 }
-                
-                destData[(i * width + j) * bytesPerPixel] = pixelRValue;
-                destData[(i * width + j) * bytesPerPixel + 1] = pixelBValue;
-                destData[(i * width + j) * bytesPerPixel + 2] = pixelGValue;
-                destData[(i * width + j) * bytesPerPixel + 3] = rawData[(i * width + j) * bytesPerPixel + 3];
             }
-        }
+        });
     }
+    
+    dispatch_group_wait(myGroup, DISPATCH_TIME_FOREVER);
 
     CGContextRef ctx;
     ctx = CGBitmapContextCreate(destData,
