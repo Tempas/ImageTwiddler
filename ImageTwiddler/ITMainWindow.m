@@ -69,7 +69,20 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
         NSImage *image = [NSImage imageNamed:imageName];
         [_images addObject:image];
     }
+    
+    [_images sortUsingComparator:^ NSComparisonResult(NSImage *i1, NSImage *i2) {
+        CGFloat image1Size = i1.size.width * i1.size.height;
+        CGFloat image2Size = i2.size.width * i2.size.height;
+        
+        if (image1Size > image2Size)
+            return NSOrderedDescending;
+        if (image1Size < image2Size)
+            return NSOrderedAscending;
+        
+        return NSOrderedSame;
+    }];
 }
+
 
 -(void) initializeThreadPopupButton
 {
