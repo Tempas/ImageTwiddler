@@ -88,7 +88,7 @@ static NSInteger NumberOfImages = 12;
 -(void) initializeThreadPopupButton
 {
     [_threadCountPopupButton removeAllItems];
-    [_threadCountPopupButton addItemsWithTitles:@[@"1", @"2", @"4", @"8", @"16"]];
+    [_threadCountPopupButton addItemsWithTitles:@[@"1", @"2", @"4", @"8", @"16", @"32"]];
 }
 
 -(void) initializeEffectPopupButton
