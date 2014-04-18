@@ -12,7 +12,7 @@
 #import "ITImageProcessor.h"
 #import "ITRenderedImageObject.h"
 
-static NSInteger NumberOfImages = 11;
+static NSInteger NumberOfImages = 12;
 
 
 
