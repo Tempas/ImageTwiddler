@@ -20,6 +20,7 @@ static NSInteger NumberOfImages = 12;
 
 @property (nonatomic, retain) NSMutableArray *images;
 @property (nonatomic) __block BOOL resetPressed;
+@property (weak) IBOutlet NSProgressIndicator *progressIndicator;
 
 @end
 
@@ -149,16 +150,23 @@ static NSInteger NumberOfImages = 12;
     
     ITImageEffect effectToApply = (ITImageEffect)[_effectPopupButton indexOfSelectedItem];
     
+    [self.progressIndicator setDoubleValue:.01];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         NSImage *selectedImage = _images[[_tableView selectedRow]];
         CGImageSourceRef source;
         source = CGImageSourceCreateWithData((__bridge CFDataRef)[selectedImage TIFFRepresentation], NULL);
         CGImageRef maskRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
+    
+        ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:effectToApply toSourceImage:maskRef withThreads:numberOfThreads andProgressListener:self];
         
-        ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:effectToApply toSourceImage:maskRef withThreads:numberOfThreads];
+
         if (!_resetPressed)
         {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self updateProgressToPercent:@1];
+            });
+            
             // get and set duration text
             int maxDigitsAfterDecimal = 4; // here's where you set the dp
             NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
@@ -179,6 +187,9 @@ static NSInteger NumberOfImages = 12;
 - (IBAction)resetButtonPressed:(id)sender {
     [self enableControls:YES];
     _resetPressed = YES;
+    [self.progressIndicator stopAnimation:nil];
+    
+
     
     _detailImageView.image = _images[[_tableView selectedRow]];
 }
@@ -189,6 +200,8 @@ static NSInteger NumberOfImages = 12;
     {
         _resetButton.alphaValue = 0;
         _timeInfoView.alphaValue = 0;
+        [self.progressIndicator setDoubleValue:0];
+        [self.progressIndicator stopAnimation:nil];
     }
     else
     {
@@ -199,4 +212,18 @@ static NSInteger NumberOfImages = 12;
     [_threadCountPopupButton setEnabled:enable];
     [_effectPopupButton setEnabled:enable];
 }
+
+#pragma mark image progress listener protocol methods
+
+-(void) updateProgressToPercent:(NSNumber *)percent
+{
+    [self.progressIndicator setDoubleValue:percent.doubleValue];
+}
+
+-(BOOL) shouldContinueProcessing
+{
+    return !_resetPressed;
+}
+
+
 @end

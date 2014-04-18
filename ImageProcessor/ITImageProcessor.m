@@ -99,6 +99,10 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     
     double gr = radius * 0.41;
     
+    __block NSInteger pixelsProcessed = 0;
+    __block NSInteger pixelsProcessedSinceUpdate = 0;
+    NSInteger totalPixels = width * height;
+    
     dispatch_group_t myGroup = dispatch_group_create();
     
     for (NSInteger t = 0; t < threads; t++)
@@ -109,6 +113,10 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
             {
                 for (NSInteger j = 0; j < width; j ++)
                 {
+                    if (![listener shouldContinueProcessing])
+                    {
+                        break;
+                    }
                     NSInteger fx = MAX(j - radius, 0);
                     NSInteger fy = MAX(i - radius, 0);
                     NSInteger tx = MIN(j + radius + 1, width);
@@ -128,12 +136,23 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
                             pixelBValue += rawData[bytesPerPixel * (y*width+x) + 1] * weight;
                             pixelGValue += rawData[bytesPerPixel * (y*width+x) + 2] * weight;
                         }
-                        
-                        destData[(i * width + j) * bytesPerPixel] = pixelRValue;
-                        destData[(i * width + j) * bytesPerPixel + 1] = pixelBValue;
-                        destData[(i * width + j) * bytesPerPixel + 2] = pixelGValue;
-                        destData[(i * width + j) * bytesPerPixel + 3] = rawData[(i * width + j) * bytesPerPixel + 3];
                     }
+                    
+                    destData[(i * width + j) * bytesPerPixel] = pixelRValue;
+                    destData[(i * width + j) * bytesPerPixel + 1] = pixelBValue;
+                    destData[(i * width + j) * bytesPerPixel + 2] = pixelGValue;
+                    destData[(i * width + j) * bytesPerPixel + 3] = rawData[(i * width + j) * bytesPerPixel + 3];
+                    pixelsProcessed++;
+                    pixelsProcessedSinceUpdate++;
+
+                    if ((pixelsProcessedSinceUpdate/(double)totalPixels > .10 || pixelsProcessed/(double)totalPixels > .85) && [listener shouldContinueProcessing])
+                    {
+                        pixelsProcessedSinceUpdate = 0;
+                        //NSLog(@"%@",@((double)pixelsProcessed/(double)totalPixels));
+                        [listener performSelectorOnMainThread:@selector(updateProgressToPercent:) withObject:@((double)pixelsProcessed/(double)totalPixels) waitUntilDone:NO];
+                    }
+                        
+                    
                 }
             }
         });

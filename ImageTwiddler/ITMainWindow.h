@@ -8,7 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ITMainWindow : NSWindow <NSTableViewDataSource, NSTableViewDelegate>
+#import "ITImageEffectProgressListener.h"
+
+@interface ITMainWindow : NSWindow <NSTableViewDataSource, NSTableViewDelegate, ITImageEffectProgressListener>
 
 @property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet NSImageView *detailImageView;

@@ -10,6 +10,7 @@
 
 @protocol ITImageEffectProgressListener <NSObject>
 
--(void) updateProgressToPercent:(double) percent;
+-(void) updateProgressToPercent:(NSNumber *) percent;
+-(BOOL) shouldContinueProcessing;
 
 @end
