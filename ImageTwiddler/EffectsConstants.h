@@ -12,7 +12,9 @@
 typedef enum
 {
     ITImageEffectBlackAndWhite,
-    ITImageEffectGaussianBlur
+    ITImageEffectGaussianBlurRadius5,
+    ITImageEffectGaussianBlurRadius10,
+    ITImageEffectGaussianBlurRadius15
     
 } ITImageEffect;
 

@@ -14,8 +14,7 @@
 
 static NSInteger NumberOfImages = 11;
 
-static NSString * GaussianBlurEffectTitle = @"Gaussian Blur";
-static NSString * BlackAndWhiteEffectTitle = @"Black and White";
+
 
 @interface ITMainWindow()
 
@@ -93,7 +92,7 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 -(void) initializeEffectPopupButton
 {
     [_effectPopupButton removeAllItems];
-    [_effectPopupButton addItemsWithTitles:@[BlackAndWhiteEffectTitle, GaussianBlurEffectTitle]];
+    [_effectPopupButton addItemsWithTitles:[ITImageProcessor ImageEffectsTitleArray]];
 }
 
 -(void) setDimensionLabelText

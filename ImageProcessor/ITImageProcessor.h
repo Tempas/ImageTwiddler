@@ -15,4 +15,6 @@
 
 + (ITRenderedImageObject *) ApplyEffect:(ITImageEffect)effect toSourceImage:(CGImageRef)source withThreads:(NSInteger) threads;
 
++ (NSArray *) ImageEffectsTitleArray;
+
 @end

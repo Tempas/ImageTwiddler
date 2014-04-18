@@ -12,13 +12,17 @@
 static NSInteger bytesPerPixel = 4;
 static NSInteger bitsPerComponent = 8;
 
-static NSInteger GaussianRadius = 10;
+
+// Image Effect Names
+static NSString * GaussianBlurEffectTitle = @"Gaussian Blur with Radius:";
+static NSString * BlackAndWhiteEffectTitle = @"Black and White";
+
+
 
 @interface ITImageProcessor()
 
-+(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withThreads:(NSInteger) threads;
++(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger) threads;
 +(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger) threads;
-
 
 @end
 
@@ -33,8 +37,18 @@ static NSInteger GaussianRadius = 10;
             returnObject = [ITImageProcessor ApplyBlackAndWhiteToImage:source withThreads:threads];
             break;
             
-        case ITImageEffectGaussianBlur:
-            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withThreads:threads];
+        case ITImageEffectGaussianBlurRadius5:
+            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:5 andThreads:threads];
+            break;
+            
+        case ITImageEffectGaussianBlurRadius10:
+            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:10 andThreads:threads];
+            break;
+            
+        case ITImageEffectGaussianBlurRadius15:
+            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:15 andThreads:threads];
+            break;
+            
         default:
             break;
     }
@@ -45,10 +59,21 @@ static NSInteger GaussianRadius = 10;
     return returnObject;
 }
 
++(NSArray *) ImageEffectsTitleArray
+{
+    NSString *gaussianBlurRadius5Title = [GaussianBlurEffectTitle stringByAppendingString:@" 5"];
+    NSString *gaussianBlurRadius10Title = [GaussianBlurEffectTitle stringByAppendingString:@" 10"];
+    NSString *gaussianBlurRadius15Title = [GaussianBlurEffectTitle stringByAppendingString:@" 15"];
+    
+    return @[BlackAndWhiteEffectTitle, gaussianBlurRadius5Title, gaussianBlurRadius10Title, gaussianBlurRadius15Title];
+}
+
+#pragma mark private rendering functions
+
 
 // thanks to http://blog.ivank.net/fastest-gaussian-blur.html#results
 
-+(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withThreads:(NSInteger)threads
++(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger)threads
 {
     NSInteger width = CGImageGetWidth(source);
     NSInteger height = CGImageGetHeight(source);
@@ -66,16 +91,16 @@ static NSInteger GaussianRadius = 10;
     
     Byte * destData = malloc(height * width * 4);
     
-    double gr = GaussianRadius * 0.41;
+    double gr = radius * 0.41;
     
     for (NSInteger i = 0; i < height; i++)
     {
         for (NSInteger j = 0; j < width; j ++)
         {
-            NSInteger fx = MAX(j - GaussianRadius, 0);
-            NSInteger fy = MAX(i - GaussianRadius, 0);
-            NSInteger tx = MIN(j + GaussianRadius + 1, width);
-            NSInteger ty = MIN(i + GaussianRadius + 1, height);
+            NSInteger fx = MAX(j - radius, 0);
+            NSInteger fy = MAX(i - radius, 0);
+            NSInteger tx = MIN(j + radius + 1, width);
+            NSInteger ty = MIN(i + radius + 1, height);
             
             double pixelRValue = 0;
             double pixelGValue = 0;

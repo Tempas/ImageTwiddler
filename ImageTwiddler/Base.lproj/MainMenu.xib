@@ -686,7 +686,7 @@
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="9a4-xr-qBW"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QyP-vS-dfN">
-                                <rect key="frame" x="18" y="43" width="169" height="17"/>
+                                <rect key="frame" x="7" y="43" width="169" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Effect Type" id="90i-dg-Nmf">
                                     <font key="font" metaFont="system"/>
@@ -695,7 +695,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wfn-by-9kP">
-                                <rect key="frame" x="220" y="43" width="54" height="17"/>
+                                <rect key="frame" x="225" y="43" width="54" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Threads" id="orI-sJ-dTu">
                                     <font key="font" metaFont="system"/>
@@ -704,7 +704,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WIC-x1-qOT">
-                                <rect key="frame" x="220" y="11" width="75" height="26"/>
+                                <rect key="frame" x="225" y="11" width="75" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="fiz-b1-QUw" id="hGo-dq-bdt">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -719,7 +719,7 @@
                                 </popUpButtonCell>
                             </popUpButton>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ilL-PA-z1h">
-                                <rect key="frame" x="18" y="11" width="157" height="26"/>
+                                <rect key="frame" x="7" y="11" width="210" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Gaussian Blur" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Z8j-fY-yV1" id="ynO-b6-acf">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
