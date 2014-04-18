@@ -19,6 +19,7 @@ static NSInteger NumberOfImages = 12;
 @interface ITMainWindow()
 
 @property (nonatomic, retain) NSMutableArray *images;
+@property (nonatomic) __block BOOL resetPressed;
 
 @end
 
@@ -55,6 +56,7 @@ static NSInteger NumberOfImages = 12;
     _dimensionLabel.layer.masksToBounds = YES;
     [self initializeEffectPopupButton];
     [self initializeThreadPopupButton];
+    _resetPressed = NO;
     
     [self enableControls:YES];
 }
@@ -140,34 +142,43 @@ static NSInteger NumberOfImages = 12;
 
 - (IBAction)renderButtonPressed:(id)sender {
     [self enableControls:NO];
+    _resetPressed = NO;
     
     NSInteger selectedThreadIndex = [_threadCountPopupButton indexOfSelectedItem];
     NSInteger numberOfThreads = pow(2, selectedThreadIndex);
     
     ITImageEffect effectToApply = (ITImageEffect)[_effectPopupButton indexOfSelectedItem];
     
-    NSImage *selectedImage = _images[[_tableView selectedRow]];
-    CGImageSourceRef source;
-    source = CGImageSourceCreateWithData((__bridge CFDataRef)[selectedImage TIFFRepresentation], NULL);
-    CGImageRef maskRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
-    
-    ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:effectToApply toSourceImage:maskRef withThreads:numberOfThreads];
-    
-    // get and set duration text
-    int maxDigitsAfterDecimal = 4; // here's where you set the dp
-    NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
-    [nf setMaximumFractionDigits:maxDigitsAfterDecimal];
-    [nf setMinimumIntegerDigits:1];
-    NSString * trimmed = [nf stringFromNumber:[NSNumber numberWithDouble:result.calculationDuration]];
-    _timeLabel.stringValue = trimmed;
-    
-    // get and set the resulting image
-    NSImage *resultImage = [[NSImage alloc] initWithCGImage:result.image size:selectedImage.size];
-    _detailImageView.image = resultImage;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        
+        NSImage *selectedImage = _images[[_tableView selectedRow]];
+        CGImageSourceRef source;
+        source = CGImageSourceCreateWithData((__bridge CFDataRef)[selectedImage TIFFRepresentation], NULL);
+        CGImageRef maskRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
+        
+        ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:effectToApply toSourceImage:maskRef withThreads:numberOfThreads];
+        if (!_resetPressed)
+        {
+            // get and set duration text
+            int maxDigitsAfterDecimal = 4; // here's where you set the dp
+            NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
+            [nf setMaximumFractionDigits:maxDigitsAfterDecimal];
+            [nf setMinimumIntegerDigits:1];
+            NSString * trimmed = [nf stringFromNumber:[NSNumber numberWithDouble:result.calculationDuration]];
+            _timeLabel.stringValue = trimmed;
+            
+            // get and set the resulting image
+            NSImage *resultImage = [[NSImage alloc] initWithCGImage:result.image size:selectedImage.size];
+            _detailImageView.image = resultImage;
+            
+            self.timeInfoView.alphaValue = 1;
+        }
+    });
 }
 
 - (IBAction)resetButtonPressed:(id)sender {
     [self enableControls:YES];
+    _resetPressed = YES;
     
     _detailImageView.image = _images[[_tableView selectedRow]];
 }
@@ -182,7 +193,6 @@ static NSInteger NumberOfImages = 12;
     else
     {
         _resetButton.alphaValue = 1;
-        _timeInfoView.alphaValue = 1;
     }
     
     [_renderButton setEnabled:enable];

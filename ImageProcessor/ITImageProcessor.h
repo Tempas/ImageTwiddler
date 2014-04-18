@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "EffectsConstants.h"
+#import "ITImageEffectProgressListener.h"
 
 @class ITRenderedImageObject;
 
 @interface ITImageProcessor : NSObject
 
 + (ITRenderedImageObject *) ApplyEffect:(ITImageEffect)effect toSourceImage:(CGImageRef)source withThreads:(NSInteger) threads;
++ (ITRenderedImageObject *) ApplyEffect:(ITImageEffect)effect toSourceImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject <ITImageEffectProgressListener> *) listener;
 
 + (NSArray *) ImageEffectsTitleArray;
 

@@ -21,32 +21,33 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 
 @interface ITImageProcessor()
 
-+(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger) threads;
-+(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger) threads;
++(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger) threads andProgressListener:(NSObject<ITImageEffectProgressListener>  *)listener ;
++(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger) threads andProgressListener:(NSObject <ITImageEffectProgressListener> *)listener;
 
 @end
 
 @implementation ITImageProcessor
 
-+(ITRenderedImageObject *) ApplyEffect:(ITImageEffect)effect toSourceImage:(CGImageRef)source withThreads:(NSInteger)threads
++(ITRenderedImageObject *) ApplyEffect:(ITImageEffect)effect toSourceImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
     NSDate *start = [NSDate date];
     ITRenderedImageObject *returnObject;
     switch (effect) {
         case ITImageEffectBlackAndWhite:
-            returnObject = [ITImageProcessor ApplyBlackAndWhiteToImage:source withThreads:threads];
+            returnObject = [ITImageProcessor ApplyBlackAndWhiteToImage:source withThreads:threads andProgressListener:listener];
             break;
             
         case ITImageEffectGaussianBlurRadius5:
-            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:5 andThreads:threads];
+            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:5 andThreads:threads andProgressListener:listener];
             break;
             
         case ITImageEffectGaussianBlurRadius10:
-            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:10 andThreads:threads];
+            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:10 andThreads:threads andProgressListener:listener];
+
             break;
             
         case ITImageEffectGaussianBlurRadius15:
-            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:15 andThreads:threads];
+            returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:15 andThreads:threads andProgressListener:listener];
             break;
             
         default:
@@ -57,6 +58,11 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     returnObject.calculationDuration = timeInterval * -1;
     
     return returnObject;
+}
+
++ (ITRenderedImageObject *) ApplyEffect:(ITImageEffect)effect toSourceImage:(CGImageRef)source withThreads:(NSInteger)threads
+{
+    return [ITImageProcessor ApplyEffect:effect toSourceImage:source withThreads:threads andProgressListener:nil];
 }
 
 +(NSArray *) ImageEffectsTitleArray
@@ -73,7 +79,7 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 
 // thanks to http://blog.ivank.net/fastest-gaussian-blur.html#results
 
-+(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger)threads
++(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
     NSInteger width = CGImageGetWidth(source);
     NSInteger height = CGImageGetHeight(source);
@@ -154,7 +160,7 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
                                         numberOfThreads:threads];
 }
 
-+(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger)threads
++(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
     // Thanks: http://brandontreb.com/image-manipulation-retrieving-and-updating-pixel-values-for-a-uiimage/
 

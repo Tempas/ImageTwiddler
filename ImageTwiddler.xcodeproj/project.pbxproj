@@ -63,6 +63,7 @@
 		941C248D18FF1DE30054B439 /* ITImageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITImageProcessor.m; path = ImageProcessor/ITImageProcessor.m; sourceTree = SOURCE_ROOT; };
 		941C249018FF20B40054B439 /* ITRenderedImageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITRenderedImageObject.h; sourceTree = "<group>"; };
 		941C249118FF20B40054B439 /* ITRenderedImageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITRenderedImageObject.m; sourceTree = "<group>"; };
+		94C756081901DC87004AED67 /* ITImageEffectProgressListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITImageEffectProgressListener.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +193,7 @@
 		941C248B18FF1DB20054B439 /* Image Processor */ = {
 			isa = PBXGroup;
 			children = (
+				94C756041901DC02004AED67 /* Progress Listener Protocol */,
 				941C248F18FF20930054B439 /* RenderedImageObject */,
 				941C248C18FF1DE30054B439 /* ITImageProcessor.h */,
 				941C248D18FF1DE30054B439 /* ITImageProcessor.m */,
@@ -206,6 +208,14 @@
 				941C249118FF20B40054B439 /* ITRenderedImageObject.m */,
 			);
 			name = RenderedImageObject;
+			sourceTree = "<group>";
+		};
+		94C756041901DC02004AED67 /* Progress Listener Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				94C756081901DC87004AED67 /* ITImageEffectProgressListener.h */,
+			);
+			name = "Progress Listener Protocol";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -525,6 +535,7 @@
 				941C247B18FDC82A0054B439 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		941C247C18FDC82A0054B439 /* Build configuration list for PBXNativeTarget "ImageTwiddlerTests" */ = {
 			isa = XCConfigurationList;
@@ -533,6 +544,7 @@
 				941C247E18FDC82A0054B439 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
