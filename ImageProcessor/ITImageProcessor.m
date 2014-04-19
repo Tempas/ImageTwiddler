@@ -65,14 +65,6 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     return [ITImageProcessor ApplyEffect:effect toSourceImage:source withThreads:threads andProgressListener:nil];
 }
 
-+(NSArray *) ImageEffectsTitleArray
-{
-    NSString *gaussianBlurRadius5Title = [GaussianBlurEffectTitle stringByAppendingString:@" 5"];
-    NSString *gaussianBlurRadius10Title = [GaussianBlurEffectTitle stringByAppendingString:@" 10"];
-    NSString *gaussianBlurRadius15Title = [GaussianBlurEffectTitle stringByAppendingString:@" 15"];
-    
-    return @[BlackAndWhiteEffectTitle, gaussianBlurRadius5Title, gaussianBlurRadius10Title, gaussianBlurRadius15Title];
-}
 
 #pragma mark private rendering functions
 
@@ -242,7 +234,27 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
                                         numberOfThreads:threads];
 }
 
-#pragma mark helper methods
+#pragma mark selection title arrays
+
++(NSArray *) ImageEffectsTitleArray
+{
+    NSString *gaussianBlurRadius5Title = [GaussianBlurEffectTitle stringByAppendingString:@" 5"];
+    NSString *gaussianBlurRadius10Title = [GaussianBlurEffectTitle stringByAppendingString:@" 10"];
+    NSString *gaussianBlurRadius15Title = [GaussianBlurEffectTitle stringByAppendingString:@" 15"];
+    
+    return @[BlackAndWhiteEffectTitle, gaussianBlurRadius5Title, gaussianBlurRadius10Title, gaussianBlurRadius15Title];
+}
+
++(NSArray *) ThreadCountsTitleArray
+{
+    return @[@"1", @"2", @"4", @"8", @"16", @"32"];
+}
+
++(NSInteger) NumberOfThreadsForThreadIndexSelected:(NSInteger)index
+{
+    return pow(2, index);
+}
+
 
 
 

@@ -18,5 +18,7 @@
 + (ITRenderedImageObject *) ApplyEffect:(ITImageEffect)effect toSourceImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject <ITImageEffectProgressListener> *) listener;
 
 + (NSArray *) ImageEffectsTitleArray;
++ (NSArray *) ThreadCountsTitleArray;
++ (NSInteger) NumberOfThreadsForThreadIndexSelected:(NSInteger)index;
 
 @end

@@ -11,6 +11,7 @@
 #import "EffectsConstants.h"
 #import "ITImageProcessor.h"
 #import "ITRenderedImageObject.h"
+#import "NSImage+CGImageRefHelper.h"
 
 static NSInteger NumberOfImages = 12;
 
@@ -88,7 +89,7 @@ static NSInteger NumberOfImages = 12;
 -(void) initializeThreadPopupButton
 {
     [_threadCountPopupButton removeAllItems];
-    [_threadCountPopupButton addItemsWithTitles:@[@"1", @"2", @"4", @"8", @"16", @"32"]];
+    [_threadCountPopupButton addItemsWithTitles: [ITImageProcessor ThreadCountsTitleArray]];
 }
 
 -(void) initializeEffectPopupButton
@@ -145,7 +146,7 @@ static NSInteger NumberOfImages = 12;
     _resetPressed = NO;
     
     NSInteger selectedThreadIndex = [_threadCountPopupButton indexOfSelectedItem];
-    NSInteger numberOfThreads = pow(2, selectedThreadIndex);
+    NSInteger numberOfThreads = [ITImageProcessor NumberOfThreadsForThreadIndexSelected:selectedThreadIndex];
     
     ITImageEffect effectToApply = (ITImageEffect)[_effectPopupButton indexOfSelectedItem];
     
@@ -153,13 +154,9 @@ static NSInteger NumberOfImages = 12;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         NSImage *selectedImage = _images[[_tableView selectedRow]];
-        CGImageSourceRef source;
-        source = CGImageSourceCreateWithData((__bridge CFDataRef)[selectedImage TIFFRepresentation], NULL);
-        CGImageRef maskRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
-    
-        ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:effectToApply toSourceImage:maskRef withThreads:numberOfThreads andProgressListener:self];
+            
+        ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:effectToApply toSourceImage:[selectedImage getCGImageRef] withThreads:numberOfThreads andProgressListener:self];
         
-
         if (!_resetPressed)
         {
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -172,7 +169,7 @@ static NSInteger NumberOfImages = 12;
             _timeLabel.stringValue = result.calculationDurationText;
             
             // get and set the resulting image
-            _detailImageView.image = [[NSImage alloc] initWithCGImage:result.image size:selectedImage.size];
+            _detailImageView.image = [NSImage ImageWithCGImage:result.image];
             
             self.timeInfoView.alphaValue = 1;
         }

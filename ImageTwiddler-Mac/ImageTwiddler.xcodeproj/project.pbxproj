@@ -22,6 +22,7 @@
 		941C248618FED8BE0054B439 /* ITImageTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 941C248518FED8BE0054B439 /* ITImageTableCellView.m */; };
 		941F8DA81902D69000CF2DD5 /* ITRenderedImageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DA71902D69000CF2DD5 /* ITRenderedImageObject.m */; };
 		941F8DAC1902D6A800CF2DD5 /* ITImageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DAB1902D6A800CF2DD5 /* ITImageProcessor.m */; };
+		941F8DF21902DB2100CF2DD5 /* NSImage+CGImageRefHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DF11902DB2100CF2DD5 /* NSImage+CGImageRefHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		941F8DAA1902D6A800CF2DD5 /* ITImageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITImageProcessor.h; path = ../../ImageProcessor/ITImageProcessor.h; sourceTree = "<group>"; };
 		941F8DAB1902D6A800CF2DD5 /* ITImageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ITImageProcessor.m; path = ../../ImageProcessor/ITImageProcessor.m; sourceTree = "<group>"; };
 		941F8DAD1902D6E400CF2DD5 /* ITImageEffectProgressListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITImageEffectProgressListener.h; path = "../../ImageProcessor/Progress Listener Protocol/ITImageEffectProgressListener.h"; sourceTree = "<group>"; };
+		941F8DF01902DB2100CF2DD5 /* NSImage+CGImageRefHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+CGImageRefHelper.h"; sourceTree = "<group>"; };
+		941F8DF11902DB2100CF2DD5 /* NSImage+CGImageRefHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+CGImageRefHelper.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +137,7 @@
 				941C248218FDC99E0054B439 /* Main Window */,
 				941C248B18FF1DB20054B439 /* Image Processor */,
 				941C246318FDC82A0054B439 /* Images.xcassets */,
+				941F8DEF1902DAF300CF2DD5 /* Object Extensions */,
 				941C245218FDC82A0054B439 /* Supporting Files */,
 			);
 			path = ImageTwiddler;
@@ -208,6 +212,15 @@
 				941F8DA71902D69000CF2DD5 /* ITRenderedImageObject.m */,
 			);
 			name = RenderedImageObject;
+			sourceTree = "<group>";
+		};
+		941F8DEF1902DAF300CF2DD5 /* Object Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				941F8DF01902DB2100CF2DD5 /* NSImage+CGImageRefHelper.h */,
+				941F8DF11902DB2100CF2DD5 /* NSImage+CGImageRefHelper.m */,
+			);
+			name = "Object Extensions";
 			sourceTree = "<group>";
 		};
 		94C756041901DC02004AED67 /* Progress Listener Protocol */ = {
@@ -322,6 +335,7 @@
 				941F8DA81902D69000CF2DD5 /* ITRenderedImageObject.m in Sources */,
 				941C245F18FDC82A0054B439 /* ITAppDelegate.m in Sources */,
 				941C248118FDC99A0054B439 /* ITMainWindow.m in Sources */,
+				941F8DF21902DB2100CF2DD5 /* NSImage+CGImageRefHelper.m in Sources */,
 				941F8DAC1902D6A800CF2DD5 /* ITImageProcessor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
