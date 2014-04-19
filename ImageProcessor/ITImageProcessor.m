@@ -145,10 +145,9 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
                     pixelsProcessed++;
                     pixelsProcessedSinceUpdate++;
 
-                    if ((pixelsProcessedSinceUpdate/(double)totalPixels > .10 || pixelsProcessed/(double)totalPixels > .85) && [listener shouldContinueProcessing])
+                    if (pixelsProcessedSinceUpdate/(double)totalPixels > .10 && [listener shouldContinueProcessing])
                     {
                         pixelsProcessedSinceUpdate = 0;
-                        //NSLog(@"%@",@((double)pixelsProcessed/(double)totalPixels));
                         [listener performSelectorOnMainThread:@selector(updateProgressToPercent:) withObject:@((double)pixelsProcessed/(double)totalPixels) waitUntilDone:NO];
                     }
                         

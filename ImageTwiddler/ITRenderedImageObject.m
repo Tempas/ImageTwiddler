@@ -22,4 +22,15 @@
     return self;
 }
 
+-(NSString *)calculationDurationText
+{
+    int maxDigitsAfterDecimal = 4; // here's where you set the dp
+    NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
+    [nf setMaximumFractionDigits:maxDigitsAfterDecimal];
+    [nf setMinimumIntegerDigits:1];
+    NSString * trimmed = [nf stringFromNumber:[NSNumber numberWithDouble:_calculationDuration]];
+    
+    return trimmed;
+}
+
 @end

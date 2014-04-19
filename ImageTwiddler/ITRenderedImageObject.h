@@ -12,6 +12,7 @@
 
 @property (nonatomic) CGImageRef image;
 @property (nonatomic) double calculationDuration;
+@property (nonatomic) NSString *calculationDurationText;
 @property (nonatomic) NSInteger numberOfThreads;
 
 -(id) initWithImage:(CGImageRef)image calcDuration:(double)duration numberOfThreads:(NSInteger)threads;

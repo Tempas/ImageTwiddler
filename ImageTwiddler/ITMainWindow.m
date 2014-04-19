@@ -53,8 +53,7 @@ static NSInteger NumberOfImages = 12;
 -(void) awakeFromNib
 {
     [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-    _dimensionLabel.layer.cornerRadius = 30;
-    _dimensionLabel.layer.masksToBounds = YES;
+
     [self initializeEffectPopupButton];
     [self initializeThreadPopupButton];
     _resetPressed = NO;
@@ -165,19 +164,15 @@ static NSInteger NumberOfImages = 12;
         {
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self updateProgressToPercent:@1];
+                [self enableProgressIndecator:NO];
+                
             });
             
             // get and set duration text
-            int maxDigitsAfterDecimal = 4; // here's where you set the dp
-            NSNumberFormatter * nf = [[NSNumberFormatter alloc] init];
-            [nf setMaximumFractionDigits:maxDigitsAfterDecimal];
-            [nf setMinimumIntegerDigits:1];
-            NSString * trimmed = [nf stringFromNumber:[NSNumber numberWithDouble:result.calculationDuration]];
-            _timeLabel.stringValue = trimmed;
+            _timeLabel.stringValue = result.calculationDurationText;
             
             // get and set the resulting image
-            NSImage *resultImage = [[NSImage alloc] initWithCGImage:result.image size:selectedImage.size];
-            _detailImageView.image = resultImage;
+            _detailImageView.image = [[NSImage alloc] initWithCGImage:result.image size:selectedImage.size];
             
             self.timeInfoView.alphaValue = 1;
         }
@@ -208,9 +203,23 @@ static NSInteger NumberOfImages = 12;
         _resetButton.alphaValue = 1;
     }
     
+    [self enableProgressIndecator:!enable];
     [_renderButton setEnabled:enable];
     [_threadCountPopupButton setEnabled:enable];
     [_effectPopupButton setEnabled:enable];
+}
+
+-(void) enableProgressIndecator:(BOOL)enable
+{
+    if (enable)
+    {
+        [self.progressIndicator startAnimation:nil];
+    }
+    else
+    {
+        [self.progressIndicator setDoubleValue:0];
+        [self.progressIndicator stopAnimation:nil];
+    }
 }
 
 #pragma mark image progress listener protocol methods
