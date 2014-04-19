@@ -85,7 +85,6 @@ static NSInteger NumberOfImages = 12;
     }];
 }
 
-
 -(void) initializeThreadPopupButton
 {
     [_threadCountPopupButton removeAllItems];
@@ -104,7 +103,6 @@ static NSInteger NumberOfImages = 12;
     NSString * dimensionText = [NSString stringWithFormat:@"%dx%d", (int)imageSize.width, (int)imageSize.height];
     _dimensionLabel.stringValue = dimensionText;
 }
-
 
 #pragma mark NSTableView datasource methods
 
@@ -167,7 +165,6 @@ static NSInteger NumberOfImages = 12;
             
             // get and set duration text
             _timeLabel.stringValue = result.calculationDurationText;
-            
             // get and set the resulting image
             _detailImageView.image = [NSImage ImageWithCGImage:result.image];
             
@@ -180,8 +177,6 @@ static NSInteger NumberOfImages = 12;
     [self enableControls:YES];
     _resetPressed = YES;
     [self.progressIndicator stopAnimation:nil];
-    
-
     
     _detailImageView.image = _images[[_tableView selectedRow]];
 }
