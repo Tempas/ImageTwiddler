@@ -138,6 +138,7 @@
 }
 
 - (IBAction)renderPressed:(id)sender {
+    _refreshPressed = NO;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         NSIndexPath *currentIndexPath = self.collectionView.indexPathsForVisibleItems[0];
@@ -148,6 +149,7 @@
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             
+            
             self.progressBar.progress = 1;
             self.progressBar.progress = 0;
             
@@ -155,6 +157,7 @@
             {
                 cell.imageView.image = [[UIImage alloc] initWithCGImage: result.image];
             }
+
         });
     });
 }
