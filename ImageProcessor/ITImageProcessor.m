@@ -16,6 +16,7 @@ static NSInteger bitsPerComponent = 8;
 // Image Effect Names
 static NSString * GaussianBlurEffectTitle = @"Gaussian Blur with Radius:";
 static NSString * BlackAndWhiteEffectTitle = @"Black and White";
+static NSString * EmbossEffectTitle = @"Emboss";
 
 
 
@@ -23,7 +24,8 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger) threads andProgressListener:(NSObject<ITImageEffectProgressListener>  *)listener ;
 +(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger) threads andProgressListener:(NSObject <ITImageEffectProgressListener> *)listener;
-
++(ITRenderedImageObject *) ApplyEmbossToImage:(CGImageRef)source withThreads:(NSInteger) threads andProgressListener:(NSObject <ITImageEffectProgressListener> *)listener;
++(NSInteger) GetMono:(Byte *)rawData withIndex: (NSInteger) index;
 @end
 
 @implementation ITImageProcessor
@@ -48,6 +50,10 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
             
         case ITImageEffectGaussianBlurRadius15:
             returnObject =  [ITImageProcessor ApplyGaussianBlurToImage:source withRadius:15 andThreads:threads andProgressListener:listener];
+            break;
+            
+        case ITImageEffectEmboss:
+            returnObject = [ITImageProcessor ApplyEmbossToImage:source withThreads:threads andProgressListener:listener];
             break;
             
         default:
@@ -198,7 +204,7 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
         dispatch_group_async(myGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             for (NSInteger i = 0; i < totalBytes/threads ; i++ )
             {
-                int grey = (rawData[threadByteIndex] + rawData[threadByteIndex+1] + rawData[threadByteIndex+2]) / 3;
+                NSInteger grey = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex];
                 
                 rawData[threadByteIndex] = grey;
                 rawData[threadByteIndex+1] = grey;
@@ -234,6 +240,148 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
                                         numberOfThreads:threads];
 }
 
++(ITRenderedImageObject *) ApplyEmbossToImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
+{
+    // Thanks: http://brandontreb.com/image-manipulation-retrieving-and-updating-pixel-values-for-a-uiimage/
+    
+    NSInteger width = CGImageGetWidth(source);
+    NSInteger height = CGImageGetHeight(source);
+    NSInteger totalBytes = width * height;
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    Byte *rawData = malloc(height * width * 4);
+    NSUInteger bytesPerRow = bytesPerPixel * width;
+    
+    CGContextRef context = CGBitmapContextCreate(rawData, width, height,
+                                                 bitsPerComponent, bytesPerRow, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), source);
+    CGContextRelease(context);
+    
+    dispatch_group_t myGroup = dispatch_group_create();
+    
+    int byteIndex = 0;
+    for (NSInteger t = 0; t < threads; t++)
+    {
+        __block NSInteger threadByteIndex = byteIndex;
+        dispatch_group_async(myGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            for (NSInteger i = 0; i < totalBytes/threads ; i++ )
+            {
+                NSInteger x = threadByteIndex % (width*4);
+                NSInteger y = threadByteIndex / (width*4);
+                
+                double sobelA,sobelB,sobelC,sobelD,sobelE,sobelF;
+                
+                if(x == 0 || y == 0)
+                {
+                    sobelA = 0;
+                }
+                else
+                {
+                    sobelA = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex-(width*4+4)];
+                }
+                
+                if(x == 0)
+                {
+                    sobelB = 0;
+                }
+                else
+                {
+                    sobelB = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex-4];
+                }
+                
+                if( x == 0 || y == (height-1) )
+                {
+                    sobelC = 0;
+                }
+                else
+                {
+                    sobelC = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex+(width*4-4)];
+                }
+                
+                if( x == (width-1) || y == 0)
+                {
+                    sobelD = 0;
+                }
+                else
+                {
+                    sobelD = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex-(width*4-4)];
+                }
+                
+                if(x == (width-1))
+                {
+                    sobelE = 0;
+                }
+                else
+                {
+                    sobelE = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex+4];
+                }
+                
+                if(x == (width-1) || y == (height-1))
+                {
+                    sobelF = 0;
+                }
+                else
+                {
+                    sobelF = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex+(width*4+4)];
+                }
+                
+                
+                double sobel = -sobelA - 2 * sobelB - sobelC +
+                sobelD + 2 * sobelE + sobelF;
+                
+//                //double sobel = -GetMono(x-1, y-1) - 2 * GetMono(x-1, y) - GetMono(x-1, y+1) +
+//                //GetMono(x+1, y-1) + 2 * GetMono(x+1, y) + GetMono(x+1, y+1);
+//                
+//                // This is a value from -1024 to + 1024.
+//                // Make into a value with an average of 128
+//                sobel = sobel + 128;
+//                
+                if(sobel < 0)
+                    sobel = 0;
+                else if(sobel > 255)
+                    sobel = 255;
+//
+                rawData[threadByteIndex] = sobel;
+                rawData[threadByteIndex+1] = sobel;
+                rawData[threadByteIndex+2] = sobel;
+                
+                threadByteIndex += 4;
+            }
+            
+        });
+        
+        byteIndex += totalBytes/threads * bytesPerPixel;
+    }
+    
+    
+    dispatch_group_wait(myGroup, DISPATCH_TIME_FOREVER);
+    
+    CGContextRef ctx;
+    ctx = CGBitmapContextCreate(rawData,
+                                width,
+                                height,
+                                8,
+                                bytesPerRow,
+                                colorSpace,
+                                kCGImageAlphaPremultipliedLast );
+    
+    CGColorSpaceRelease(colorSpace);
+    
+    CGImageRef imageRef = CGBitmapContextCreateImage (ctx);
+    
+    
+    return [[ITRenderedImageObject alloc] initWithImage:imageRef
+                                           calcDuration:0
+                                        numberOfThreads:threads];
+}
+
++(NSInteger) GetMono:(Byte *)rawData withIndex: (NSInteger) index
+{
+    return (rawData[index] + rawData[index+1] + rawData[index+2]) / 3;
+}
+
 #pragma mark selection title arrays
 
 +(NSArray *) ImageEffectsTitleArray
@@ -242,7 +390,7 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
     NSString *gaussianBlurRadius10Title = [GaussianBlurEffectTitle stringByAppendingString:@" 10"];
     NSString *gaussianBlurRadius15Title = [GaussianBlurEffectTitle stringByAppendingString:@" 15"];
     
-    return @[BlackAndWhiteEffectTitle, gaussianBlurRadius5Title, gaussianBlurRadius10Title, gaussianBlurRadius15Title];
+    return @[BlackAndWhiteEffectTitle, gaussianBlurRadius5Title, gaussianBlurRadius10Title, gaussianBlurRadius15Title,EmbossEffectTitle];
 }
 
 +(NSArray *) ThreadCountsTitleArray
