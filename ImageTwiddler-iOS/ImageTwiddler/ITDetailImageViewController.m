@@ -28,6 +28,7 @@
 
 @property (nonatomic) NSInteger numberOfThreads;
 @property (nonatomic) ITImageEffect imageEffect;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 
 @end
 
@@ -140,12 +141,12 @@
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             ITDetailImageCell *cell = (ITDetailImageCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+            self.progressBar.progress = 1;
+            self.progressBar.progress = 0;
             
             cell.imageView.image = [[UIImage alloc] initWithCGImage: result.image];
         });
-        
     });
-
 }
 
 #pragma mark UIActionSheet delegate methods
@@ -173,6 +174,6 @@
 
 -(void) updateProgressToPercent:(NSNumber *)percent
 {
-    
+    self.progressBar.progress = [percent floatValue];
 }
 @end

@@ -107,7 +107,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.38976801658163263" green="0.38976801658163263" blue="0.38976801658163263" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="16 Threads" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBd-yi-R1E">
@@ -115,7 +115,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.38976801658163263" green="0.38976801658163263" blue="0.38976801658163263" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -166,11 +166,21 @@
                                     <action selector="backButtonPressed:" destination="7Z9-JR-O00" eventType="touchUpInside" id="jAf-Oa-Dbv"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TQe-Qx-bVq">
+                                <rect key="frame" x="51" y="436" width="218" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="AI9-Wi-9kj"/>
+                                    <constraint firstAttribute="width" constant="218" id="Gg5-yk-vT3"/>
+                                </constraints>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="cNd-hl-8TN" secondAttribute="bottom" constant="51" id="b2J-C3-z5g"/>
+                            <constraint firstItem="TQe-Qx-bVq" firstAttribute="top" secondItem="4re-uw-JmL" secondAttribute="top" constant="436" id="c2X-Wi-7XG"/>
                             <constraint firstItem="cNd-hl-8TN" firstAttribute="leading" secondItem="4re-uw-JmL" secondAttribute="leading" id="dML-de-sRw"/>
+                            <constraint firstItem="TQe-Qx-bVq" firstAttribute="leading" secondItem="4re-uw-JmL" secondAttribute="leading" constant="51" id="iYs-GV-NjW"/>
                         </constraints>
                     </view>
                     <connections>
@@ -178,13 +188,14 @@
                         <outlet property="collectionView" destination="uaa-Ca-9qL" id="zdr-4m-fAW"/>
                         <outlet property="effectLabel" destination="o0d-oQ-LkW" id="NOA-Ot-ydf"/>
                         <outlet property="effectsBarButton" destination="1Z6-xb-tNU" id="mZc-ut-2Pr"/>
+                        <outlet property="progressBar" destination="TQe-Qx-bVq" id="eLH-Nh-fZi"/>
                         <outlet property="threadCountLabel" destination="OBd-yi-R1E" id="chJ-Ok-uxI"/>
                         <outlet property="threadsBarButton" destination="cnX-r9-ZiG" id="TGk-Pg-y82"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jnP-9s-6QU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-818" y="-83"/>
+            <point key="canvasLocation" x="-819" y="-89"/>
         </scene>
     </scenes>
     <resources>
