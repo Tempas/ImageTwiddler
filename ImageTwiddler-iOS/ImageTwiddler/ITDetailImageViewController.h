@@ -15,7 +15,7 @@
 
 @end
 
-@interface ITDetailImageViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface ITDetailImageViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, weak) NSObject <ITDetailImageControllerImageSource> * imageSource;
 
@@ -24,5 +24,7 @@
 
 -(void) setInitialSelectionIndex:(NSInteger) selectionIndex;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UILabel *effectLabel;
+@property (weak, nonatomic) IBOutlet UILabel *threadCountLabel;
 
 @end
