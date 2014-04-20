@@ -19,6 +19,23 @@
     return self;
 }
 
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        
+    }
+    
+    return self;
+}
+
+-(void) awakeFromNib
+{
+    self.imageSizeLabel.layer.cornerRadius = self.imageSizeLabel.frame.size.height/2;
+    self.imageSizeLabel.layer.masksToBounds = YES;
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

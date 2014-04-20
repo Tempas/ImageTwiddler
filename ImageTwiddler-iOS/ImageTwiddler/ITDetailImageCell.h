@@ -12,5 +12,6 @@ static NSString * DetailImageCellIdentifier = @"DetailImageCell";
 
 @interface ITDetailImageCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *imageSizeLabel;
 
 @end

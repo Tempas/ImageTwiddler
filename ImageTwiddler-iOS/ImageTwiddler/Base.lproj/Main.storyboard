@@ -89,10 +89,19 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="314" height="400"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gAe-2p-bSl">
+                                                    <rect key="frame" x="197" y="6" width="110" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.48999999999999999" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="imageSizeLabel" destination="gAe-2p-bSl" id="OiD-hX-Ofg"/>
                                             <outlet property="imageView" destination="jqA-bg-RIl" id="g68-0y-TRh"/>
                                         </connections>
                                     </collectionViewCell>
@@ -189,6 +198,27 @@
                                     <action selector="refreshButtonPressed:" destination="7Z9-JR-O00" eventType="touchUpInside" id="Jlz-ep-YZ5"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NtB-3D-2FU">
+                                <rect key="frame" x="80" y="5" width="160" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="99.2222" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="ROQ-aU-MQW">
+                                        <rect key="frame" x="16" y="5" width="129" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="seconds" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93I-T1-OZU">
+                                        <rect key="frame" x="75" y="25" width="69" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -211,6 +241,8 @@
                         <outlet property="refreshButton" destination="elf-30-7NQ" id="Xr7-13-iLh"/>
                         <outlet property="threadCountLabel" destination="OBd-yi-R1E" id="chJ-Ok-uxI"/>
                         <outlet property="threadsBarButton" destination="cnX-r9-ZiG" id="TGk-Pg-y82"/>
+                        <outlet property="timeContainerView" destination="NtB-3D-2FU" id="yx1-Yl-hED"/>
+                        <outlet property="timeLabel" destination="ROQ-aU-MQW" id="DvF-Zy-sm7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jnP-9s-6QU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -221,7 +253,7 @@
     <resources>
         <image name="backButton" width="25" height="25"/>
         <image name="effectsIcon" width="30" height="30"/>
-        <image name="refreshButton" width="25" height="25"/>
+        <image name="refreshButton" width="17" height="17"/>
         <image name="threadsIcon" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

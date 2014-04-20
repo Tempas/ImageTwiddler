@@ -31,6 +31,8 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 
 @property (nonatomic) BOOL refreshPressed;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UIView *timeContainerView;
 
 @end
 
@@ -68,6 +70,8 @@
     _imageEffect = 0;
     
     _refreshPressed = NO;
+    
+    [self revealTimeContainer:NO withAnimation:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -126,7 +130,16 @@
     
     cell.imageView.image = [_imageSource imageForCellAtIndexPath:indexPath];
     
+    cell.imageSizeLabel.text = [NSString stringWithFormat:@"%d x %d", (int)cell.imageView.image.size.width, (int)cell.imageView.image.size.height ];
+    
     return cell;
+}
+
+#pragma mark UICollectionView delegate methods
+
+-(void) collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self revealTimeContainer:NO withAnimation:YES];
 }
 
 - (IBAction)effectsPressed:(id)sender {
@@ -149,7 +162,8 @@
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             
-            
+            self.timeLabel.text = result.calculationDurationText;
+            [self revealTimeContainer:YES withAnimation:YES];
             self.progressBar.progress = 1;
             self.progressBar.progress = 0;
             
@@ -196,6 +210,19 @@
     cell.imageView.image = [_imageSource imageForCellAtIndexPath:currentIndexPath];
     self.progressBar.progress = 0;
     
+    [self revealTimeContainer:NO withAnimation:YES];
+    
     _refreshPressed = YES;
+}
+
+-(void) revealTimeContainer:(BOOL)reveal withAnimation:(BOOL)animation
+{
+    double endAlpha = reveal ? 1 : 0;
+    
+    [UIView animateWithDuration: animation ? .3 : 0
+                     animations:^{
+                         self.timeContainerView.alpha = endAlpha;
+                     }];
+
 }
 @end
