@@ -268,7 +268,7 @@ static NSString * EmbossEffectTitle = @"Emboss";
         dispatch_group_async(myGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             for (NSInteger i = 0; i < totalBytes/threads ; i++ )
             {
-                NSInteger x = threadByteIndex % (width*4);
+                NSInteger x = (threadByteIndex/4) % width;
                 NSInteger y = threadByteIndex / (width*4);
                 
                 double sobelA,sobelB,sobelC,sobelD,sobelE,sobelF;
@@ -334,15 +334,14 @@ static NSString * EmbossEffectTitle = @"Emboss";
 //                //double sobel = -GetMono(x-1, y-1) - 2 * GetMono(x-1, y) - GetMono(x-1, y+1) +
 //                //GetMono(x+1, y-1) + 2 * GetMono(x+1, y) + GetMono(x+1, y+1);
 //                
-//                // This is a value from -1024 to + 1024.
-//                // Make into a value with an average of 128
-//                sobel = sobel + 128;
-//                
+
+                sobel = sobel + 128;
+               
                 if(sobel < 0)
                     sobel = 0;
                 else if(sobel > 255)
                     sobel = 255;
-//
+
                 rawData[threadByteIndex] = sobel;
                 rawData[threadByteIndex+1] = sobel;
                 rawData[threadByteIndex+2] = sobel;
