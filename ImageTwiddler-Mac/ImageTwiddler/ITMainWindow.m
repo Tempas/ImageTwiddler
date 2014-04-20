@@ -147,7 +147,7 @@
     [self.progressIndicator setDoubleValue:.01];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
-        NSImage *selectedImage = _images[[_tableView selectedRow]];
+        NSImage *selectedImage = _detailImageView.image;
             
         ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:effectToApply toSourceImage:[selectedImage getCGImageRef] withThreads:numberOfThreads andProgressListener:self];
         
