@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ITImageEffectProgressListener.h"
 
 @protocol ITDetailImageControllerImageSource <NSObject>
 
@@ -15,7 +16,7 @@
 
 @end
 
-@interface ITDetailImageViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate>
+@interface ITDetailImageViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate, ITImageEffectProgressListener>
 
 @property (nonatomic, weak) NSObject <ITDetailImageControllerImageSource> * imageSource;
 

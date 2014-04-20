@@ -9,6 +9,7 @@
 #import "ITDetailImageViewController.h"
 #import "ITDetailImageCell.h"
 #import "ITImageProcessor.h"
+#import "ITRenderedImageObject.h"
 
 @interface ITDetailImageViewController ()
 
@@ -24,6 +25,9 @@
 
 @property (nonatomic, retain) NSArray * threadTitleArray;
 @property (nonatomic, retain) NSArray * effectTitleArray;
+
+@property (nonatomic) NSInteger numberOfThreads;
+@property (nonatomic) ITImageEffect imageEffect;
 
 @end
 
@@ -55,6 +59,8 @@
     
     _effectLabel.text = _effectTitleArray[0];
     _threadCountLabel.text = [_threadTitleArray[0] stringByAppendingString:@" Threads"];
+    _numberOfThreads = [ITImageProcessor NumberOfThreadsForThreadIndexSelected:0];
+    _imageEffect = 0;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -125,7 +131,21 @@
 }
 
 - (IBAction)renderPressed:(id)sender {
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        
+        NSIndexPath *currentIndexPath = self.collectionView.indexPathsForVisibleItems[0];
+        UIImage *selectedImage = [_imageSource imageForCellAtIndexPath: currentIndexPath];
+        
+        ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:_imageEffect toSourceImage:selectedImage.CGImage withThreads:_numberOfThreads andProgressListener:self];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            ITDetailImageCell *cell = (ITDetailImageCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+            
+            cell.imageView.image = [[UIImage alloc] initWithCGImage: result.image];
+        });
+        
+    });
+
 }
 
 #pragma mark UIActionSheet delegate methods
@@ -135,10 +155,24 @@
     if (actionSheet == _threadsActionSheet)
     {
         _threadCountLabel.text = [_threadTitleArray[buttonIndex] stringByAppendingString:@" Threads"];
+        _numberOfThreads = [ITImageProcessor NumberOfThreadsForThreadIndexSelected:buttonIndex];
     }
     else
     {
         _effectLabel.text = _effectTitleArray[buttonIndex];
+        _imageEffect = buttonIndex;
     }
+}
+
+#pragma mark ITImageEffectProgressListener Protocol methods
+
+-(BOOL)shouldContinueProcessing
+{
+    return YES;
+}
+
+-(void) updateProgressToPercent:(NSNumber *)percent
+{
+    
 }
 @end
