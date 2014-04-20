@@ -28,6 +28,8 @@
 		941F8E151902E36D00CF2DD5 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941F8E141902E36D00CF2DD5 /* ImageIO.framework */; };
 		941F8EA819034A9C00CF2DD5 /* ITImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8EA719034A9C00CF2DD5 /* ITImageCell.m */; };
 		941F8EAB19034AB100CF2DD5 /* ITImageSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8EAA19034AB100CF2DD5 /* ITImageSelectionViewController.m */; };
+		941F8EB61904170000CF2DD5 /* ITDetailImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8EB51904170000CF2DD5 /* ITDetailImageViewController.m */; };
+		941F8EBA190419DF00CF2DD5 /* ITDetailImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8EB9190419DF00CF2DD5 /* ITDetailImageCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,10 @@
 		941F8EA719034A9C00CF2DD5 /* ITImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITImageCell.m; sourceTree = "<group>"; };
 		941F8EA919034AB100CF2DD5 /* ITImageSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITImageSelectionViewController.h; sourceTree = "<group>"; };
 		941F8EAA19034AB100CF2DD5 /* ITImageSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITImageSelectionViewController.m; sourceTree = "<group>"; };
+		941F8EB41904170000CF2DD5 /* ITDetailImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITDetailImageViewController.h; sourceTree = "<group>"; };
+		941F8EB51904170000CF2DD5 /* ITDetailImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITDetailImageViewController.m; sourceTree = "<group>"; };
+		941F8EB8190419DF00CF2DD5 /* ITDetailImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITDetailImageCell.h; sourceTree = "<group>"; };
+		941F8EB9190419DF00CF2DD5 /* ITDetailImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITDetailImageCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +148,8 @@
 				941F8DC91902D8DD00CF2DD5 /* ITAppDelegate.h */,
 				941F8DCA1902D8DD00CF2DD5 /* ITAppDelegate.m */,
 				941F8DCC1902D8DD00CF2DD5 /* Main.storyboard */,
-				941F8EA419034A6800CF2DD5 /* Collection View */,
+				941F8EA419034A6800CF2DD5 /* Main Collection View */,
+				941F8EB31904168D00CF2DD5 /* Detail Collection View */,
 				941F8DF31902DE6700CF2DD5 /* ImageProcessor */,
 				941F8DD21902D8DD00CF2DD5 /* Images.xcassets */,
 				941F8DC11902D8DD00CF2DD5 /* Supporting Files */,
@@ -209,14 +216,14 @@
 			path = "Rendered Image Object";
 			sourceTree = "<group>";
 		};
-		941F8EA419034A6800CF2DD5 /* Collection View */ = {
+		941F8EA419034A6800CF2DD5 /* Main Collection View */ = {
 			isa = PBXGroup;
 			children = (
 				941F8EA519034A8200CF2DD5 /* Image Cell */,
 				941F8EA919034AB100CF2DD5 /* ITImageSelectionViewController.h */,
 				941F8EAA19034AB100CF2DD5 /* ITImageSelectionViewController.m */,
 			);
-			name = "Collection View";
+			name = "Main Collection View";
 			sourceTree = "<group>";
 		};
 		941F8EA519034A8200CF2DD5 /* Image Cell */ = {
@@ -226,6 +233,25 @@
 				941F8EA719034A9C00CF2DD5 /* ITImageCell.m */,
 			);
 			name = "Image Cell";
+			sourceTree = "<group>";
+		};
+		941F8EB31904168D00CF2DD5 /* Detail Collection View */ = {
+			isa = PBXGroup;
+			children = (
+				941F8EB7190419CD00CF2DD5 /* Detail Image Cell */,
+				941F8EB41904170000CF2DD5 /* ITDetailImageViewController.h */,
+				941F8EB51904170000CF2DD5 /* ITDetailImageViewController.m */,
+			);
+			name = "Detail Collection View";
+			sourceTree = "<group>";
+		};
+		941F8EB7190419CD00CF2DD5 /* Detail Image Cell */ = {
+			isa = PBXGroup;
+			children = (
+				941F8EB8190419DF00CF2DD5 /* ITDetailImageCell.h */,
+				941F8EB9190419DF00CF2DD5 /* ITDetailImageCell.m */,
+			);
+			name = "Detail Image Cell";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +352,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				941F8EB61904170000CF2DD5 /* ITDetailImageViewController.m in Sources */,
+				941F8EBA190419DF00CF2DD5 /* ITDetailImageCell.m in Sources */,
 				941F8EAB19034AB100CF2DD5 /* ITImageSelectionViewController.m in Sources */,
 				941F8EA819034A9C00CF2DD5 /* ITImageCell.m in Sources */,
 				941F8DC71902D8DD00CF2DD5 /* main.m in Sources */,

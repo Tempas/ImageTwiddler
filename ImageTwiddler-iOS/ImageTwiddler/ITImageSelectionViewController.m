@@ -8,11 +8,14 @@
 
 #import "ITImageSelectionViewController.h"
 #import "EffectsConstants.h"
+#import "ITImageCell.h"
+
 
 
 @interface ITImageSelectionViewController ()
 
 @property (nonatomic, retain) NSMutableArray *images;
+@property (nonatomic) NSInteger selectedRow;
 
 @end
 
@@ -32,7 +35,13 @@
     [super viewDidLoad];
     
     [self initializeImages];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
+    //[self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,7 +55,7 @@
     _images = [[NSMutableArray alloc] init];
     for (int i = 0; i < NumberOfImages; i++)
     {
-        NSString *imageName = [NSString stringWithFormat:@"image%d", i ];
+        NSString *imageName = [NSString stringWithFormat:@"image%d.png", i ];
         UIImage *image = [UIImage imageNamed:imageName];
         [_images addObject:image];
     }
@@ -64,15 +73,51 @@
     }];
 }
 
-/*
+#pragma mark UICollectionView datasource methods
+
+-(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+-(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return [_images count];
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    ITImageCell * cell = (ITImageCell *)[collectionView dequeueReusableCellWithReuseIdentifier:ImageCellIdentifier forIndexPath:indexPath];
+    
+    cell.imageView.image = _images[indexPath.row];
+    
+    return cell;
+}
+
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    ITDetailImageViewController * detailController = (ITDetailImageViewController *)[segue destinationViewController];
+    detailController.imageSource = self;
+    
+    NSIndexPath *selectedIndexPath = self.collectionView.indexPathsForSelectedItems[0];
+    [detailController setInitialSelectionIndex:selectedIndexPath.row];
 }
-*/
+
+#pragma mark ITDetailImageViewController image source methods
+
+-(NSInteger)numberOfImages
+{
+    return [_images count];
+}
+
+-(UIImage *)imageForCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    return _images[indexPath.row];
+}
+
+
 
 @end
