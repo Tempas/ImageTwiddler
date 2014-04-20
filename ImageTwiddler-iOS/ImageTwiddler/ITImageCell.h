@@ -1,5 +1,5 @@
 //
-//  ITViewController.h
+//  ITImageCell.h
 //  ImageTwiddler
 //
 //  Created by Ryan Tempas on 4/19/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ITViewController : UIViewController
+@interface ITImageCell : UICollectionViewCell
 
 @end

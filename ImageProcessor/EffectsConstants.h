@@ -18,5 +18,7 @@ typedef enum
     
 } ITImageEffect;
 
+static NSInteger NumberOfImages = 12;
+
 
 #endif

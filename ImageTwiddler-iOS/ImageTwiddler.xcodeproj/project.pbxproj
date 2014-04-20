@@ -14,13 +14,20 @@
 		941F8DC71902D8DD00CF2DD5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DC61902D8DD00CF2DD5 /* main.m */; };
 		941F8DCB1902D8DD00CF2DD5 /* ITAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DCA1902D8DD00CF2DD5 /* ITAppDelegate.m */; };
 		941F8DCE1902D8DD00CF2DD5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 941F8DCC1902D8DD00CF2DD5 /* Main.storyboard */; };
-		941F8DD11902D8DD00CF2DD5 /* ITViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DD01902D8DD00CF2DD5 /* ITViewController.m */; };
 		941F8DD31902D8DD00CF2DD5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 941F8DD21902D8DD00CF2DD5 /* Images.xcassets */; };
 		941F8DDA1902D8DD00CF2DD5 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941F8DD91902D8DD00CF2DD5 /* XCTest.framework */; };
 		941F8DDB1902D8DD00CF2DD5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941F8DBA1902D8DD00CF2DD5 /* Foundation.framework */; };
 		941F8DDC1902D8DD00CF2DD5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941F8DBE1902D8DD00CF2DD5 /* UIKit.framework */; };
 		941F8DE41902D8DD00CF2DD5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 941F8DE21902D8DD00CF2DD5 /* InfoPlist.strings */; };
 		941F8DE61902D8DD00CF2DD5 /* ImageTwiddlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DE51902D8DD00CF2DD5 /* ImageTwiddlerTests.m */; };
+		941F8DFC1902DE6700CF2DD5 /* ITImageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DF61902DE6700CF2DD5 /* ITImageProcessor.m */; };
+		941F8DFD1902DE6700CF2DD5 /* ITRenderedImageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DFB1902DE6700CF2DD5 /* ITRenderedImageObject.m */; };
+		941F8E0F1902E35400CF2DD5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941F8E0E1902E35400CF2DD5 /* QuartzCore.framework */; };
+		941F8E111902E35C00CF2DD5 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941F8E101902E35C00CF2DD5 /* MessageUI.framework */; };
+		941F8E131902E36400CF2DD5 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941F8E121902E36400CF2DD5 /* AssetsLibrary.framework */; };
+		941F8E151902E36D00CF2DD5 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941F8E141902E36D00CF2DD5 /* ImageIO.framework */; };
+		941F8EA819034A9C00CF2DD5 /* ITImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8EA719034A9C00CF2DD5 /* ITImageCell.m */; };
+		941F8EAB19034AB100CF2DD5 /* ITImageSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8EAA19034AB100CF2DD5 /* ITImageSelectionViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,14 +52,26 @@
 		941F8DC91902D8DD00CF2DD5 /* ITAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITAppDelegate.h; sourceTree = "<group>"; };
 		941F8DCA1902D8DD00CF2DD5 /* ITAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ITAppDelegate.m; sourceTree = "<group>"; };
 		941F8DCD1902D8DD00CF2DD5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		941F8DCF1902D8DD00CF2DD5 /* ITViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITViewController.h; sourceTree = "<group>"; };
-		941F8DD01902D8DD00CF2DD5 /* ITViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ITViewController.m; sourceTree = "<group>"; };
 		941F8DD21902D8DD00CF2DD5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		941F8DD81902D8DD00CF2DD5 /* ImageTwiddlerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageTwiddlerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		941F8DD91902D8DD00CF2DD5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		941F8DE11902D8DD00CF2DD5 /* ImageTwiddlerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ImageTwiddlerTests-Info.plist"; sourceTree = "<group>"; };
 		941F8DE31902D8DD00CF2DD5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		941F8DE51902D8DD00CF2DD5 /* ImageTwiddlerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageTwiddlerTests.m; sourceTree = "<group>"; };
+		941F8DF41902DE6700CF2DD5 /* EffectsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectsConstants.h; sourceTree = "<group>"; };
+		941F8DF51902DE6700CF2DD5 /* ITImageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITImageProcessor.h; sourceTree = "<group>"; };
+		941F8DF61902DE6700CF2DD5 /* ITImageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITImageProcessor.m; sourceTree = "<group>"; };
+		941F8DF81902DE6700CF2DD5 /* ITImageEffectProgressListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITImageEffectProgressListener.h; sourceTree = "<group>"; };
+		941F8DFA1902DE6700CF2DD5 /* ITRenderedImageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITRenderedImageObject.h; sourceTree = "<group>"; };
+		941F8DFB1902DE6700CF2DD5 /* ITRenderedImageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITRenderedImageObject.m; sourceTree = "<group>"; };
+		941F8E0E1902E35400CF2DD5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		941F8E101902E35C00CF2DD5 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		941F8E121902E36400CF2DD5 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		941F8E141902E36D00CF2DD5 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		941F8EA619034A9C00CF2DD5 /* ITImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITImageCell.h; sourceTree = "<group>"; };
+		941F8EA719034A9C00CF2DD5 /* ITImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITImageCell.m; sourceTree = "<group>"; };
+		941F8EA919034AB100CF2DD5 /* ITImageSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITImageSelectionViewController.h; sourceTree = "<group>"; };
+		941F8EAA19034AB100CF2DD5 /* ITImageSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITImageSelectionViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +79,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				941F8E151902E36D00CF2DD5 /* ImageIO.framework in Frameworks */,
+				941F8E131902E36400CF2DD5 /* AssetsLibrary.framework in Frameworks */,
+				941F8E111902E35C00CF2DD5 /* MessageUI.framework in Frameworks */,
+				941F8E0F1902E35400CF2DD5 /* QuartzCore.framework in Frameworks */,
 				941F8DBD1902D8DD00CF2DD5 /* CoreGraphics.framework in Frameworks */,
 				941F8DBF1902D8DD00CF2DD5 /* UIKit.framework in Frameworks */,
 				941F8DBB1902D8DD00CF2DD5 /* Foundation.framework in Frameworks */,
@@ -101,6 +124,10 @@
 		941F8DB91902D8DD00CF2DD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				941F8E141902E36D00CF2DD5 /* ImageIO.framework */,
+				941F8E121902E36400CF2DD5 /* AssetsLibrary.framework */,
+				941F8E101902E35C00CF2DD5 /* MessageUI.framework */,
+				941F8E0E1902E35400CF2DD5 /* QuartzCore.framework */,
 				941F8DBA1902D8DD00CF2DD5 /* Foundation.framework */,
 				941F8DBC1902D8DD00CF2DD5 /* CoreGraphics.framework */,
 				941F8DBE1902D8DD00CF2DD5 /* UIKit.framework */,
@@ -115,8 +142,8 @@
 				941F8DC91902D8DD00CF2DD5 /* ITAppDelegate.h */,
 				941F8DCA1902D8DD00CF2DD5 /* ITAppDelegate.m */,
 				941F8DCC1902D8DD00CF2DD5 /* Main.storyboard */,
-				941F8DCF1902D8DD00CF2DD5 /* ITViewController.h */,
-				941F8DD01902D8DD00CF2DD5 /* ITViewController.m */,
+				941F8EA419034A6800CF2DD5 /* Collection View */,
+				941F8DF31902DE6700CF2DD5 /* ImageProcessor */,
 				941F8DD21902D8DD00CF2DD5 /* Images.xcassets */,
 				941F8DC11902D8DD00CF2DD5 /* Supporting Files */,
 			);
@@ -150,6 +177,55 @@
 				941F8DE21902D8DD00CF2DD5 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		941F8DF31902DE6700CF2DD5 /* ImageProcessor */ = {
+			isa = PBXGroup;
+			children = (
+				941F8DF41902DE6700CF2DD5 /* EffectsConstants.h */,
+				941F8DF51902DE6700CF2DD5 /* ITImageProcessor.h */,
+				941F8DF61902DE6700CF2DD5 /* ITImageProcessor.m */,
+				941F8DF71902DE6700CF2DD5 /* Progress Listener Protocol */,
+				941F8DF91902DE6700CF2DD5 /* Rendered Image Object */,
+			);
+			name = ImageProcessor;
+			path = ../../ImageProcessor;
+			sourceTree = "<group>";
+		};
+		941F8DF71902DE6700CF2DD5 /* Progress Listener Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				941F8DF81902DE6700CF2DD5 /* ITImageEffectProgressListener.h */,
+			);
+			path = "Progress Listener Protocol";
+			sourceTree = "<group>";
+		};
+		941F8DF91902DE6700CF2DD5 /* Rendered Image Object */ = {
+			isa = PBXGroup;
+			children = (
+				941F8DFA1902DE6700CF2DD5 /* ITRenderedImageObject.h */,
+				941F8DFB1902DE6700CF2DD5 /* ITRenderedImageObject.m */,
+			);
+			path = "Rendered Image Object";
+			sourceTree = "<group>";
+		};
+		941F8EA419034A6800CF2DD5 /* Collection View */ = {
+			isa = PBXGroup;
+			children = (
+				941F8EA519034A8200CF2DD5 /* Image Cell */,
+				941F8EA919034AB100CF2DD5 /* ITImageSelectionViewController.h */,
+				941F8EAA19034AB100CF2DD5 /* ITImageSelectionViewController.m */,
+			);
+			name = "Collection View";
+			sourceTree = "<group>";
+		};
+		941F8EA519034A8200CF2DD5 /* Image Cell */ = {
+			isa = PBXGroup;
+			children = (
+				941F8EA619034A9C00CF2DD5 /* ITImageCell.h */,
+				941F8EA719034A9C00CF2DD5 /* ITImageCell.m */,
+			);
+			name = "Image Cell";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,9 +326,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				941F8EAB19034AB100CF2DD5 /* ITImageSelectionViewController.m in Sources */,
+				941F8EA819034A9C00CF2DD5 /* ITImageCell.m in Sources */,
 				941F8DC71902D8DD00CF2DD5 /* main.m in Sources */,
+				941F8DFC1902DE6700CF2DD5 /* ITImageProcessor.m in Sources */,
+				941F8DFD1902DE6700CF2DD5 /* ITRenderedImageObject.m in Sources */,
 				941F8DCB1902D8DD00CF2DD5 /* ITAppDelegate.m in Sources */,
-				941F8DD11902D8DD00CF2DD5 /* ITViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,12 +454,15 @@
 		941F8DEA1902D8DD00CF2DD5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ImageTwiddler/ImageTwiddler-Prefix.pch";
 				INFOPLIST_FILE = "ImageTwiddler/ImageTwiddler-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -388,12 +470,15 @@
 		941F8DEB1902D8DD00CF2DD5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ImageTwiddler/ImageTwiddler-Prefix.pch";
 				INFOPLIST_FILE = "ImageTwiddler/ImageTwiddler-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -457,6 +542,7 @@
 				941F8DEB1902D8DD00CF2DD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		941F8DEC1902D8DD00CF2DD5 /* Build configuration list for PBXNativeTarget "ImageTwiddlerTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +551,7 @@
 				941F8DEE1902D8DD00CF2DD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

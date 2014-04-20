@@ -13,10 +13,6 @@
 #import "ITRenderedImageObject.h"
 #import "NSImage+CGImageRefHelper.h"
 
-static NSInteger NumberOfImages = 12;
-
-
-
 @interface ITMainWindow()
 
 @property (nonatomic, retain) NSMutableArray *images;

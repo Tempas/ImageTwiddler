@@ -1,5 +1,5 @@
 //
-//  ITAppDelegate.h
+//  ITImageSelectionViewController.h
 //  ImageTwiddler
 //
 //  Created by Ryan Tempas on 4/19/14.
@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ITAppDelegate : UIResponder <UIApplicationDelegate>
-
+@interface ITImageSelectionViewController : UICollectionViewController
 
 @end
