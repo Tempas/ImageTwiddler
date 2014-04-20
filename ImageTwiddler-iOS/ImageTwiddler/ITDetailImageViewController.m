@@ -30,6 +30,8 @@
 @property (nonatomic) ITImageEffect imageEffect;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 
+@property (nonatomic) BOOL refreshPressed;
+
 @end
 
 @implementation ITDetailImageViewController
@@ -49,6 +51,8 @@
     // Do any additional setup after loading the view.
     self.backButton.layer.cornerRadius = self.backButton.frame.size.width/2;
     
+    self.refreshButton.layer.cornerRadius = self.refreshButton.frame.size.width/2;
+    
     self.threadCountLabel.layer.cornerRadius = self.threadCountLabel.frame.size.height/2;
     self.effectLabel.layer.cornerRadius = self.effectLabel.frame.size.height/2;
     
@@ -62,6 +66,8 @@
     _threadCountLabel.text = [_threadTitleArray[0] stringByAppendingString:@" Threads"];
     _numberOfThreads = [ITImageProcessor NumberOfThreadsForThreadIndexSelected:0];
     _imageEffect = 0;
+    
+    _refreshPressed = NO;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -135,16 +141,20 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         NSIndexPath *currentIndexPath = self.collectionView.indexPathsForVisibleItems[0];
-        UIImage *selectedImage = [_imageSource imageForCellAtIndexPath: currentIndexPath];
+        ITDetailImageCell *cell = (ITDetailImageCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+        UIImage *selectedImage = cell.imageView.image;
         
         ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:_imageEffect toSourceImage:selectedImage.CGImage withThreads:_numberOfThreads andProgressListener:self];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            ITDetailImageCell *cell = (ITDetailImageCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+            
             self.progressBar.progress = 1;
             self.progressBar.progress = 0;
             
-            cell.imageView.image = [[UIImage alloc] initWithCGImage: result.image];
+            if (!_refreshPressed)
+            {
+                cell.imageView.image = [[UIImage alloc] initWithCGImage: result.image];
+            }
         });
     });
 }
@@ -169,11 +179,20 @@
 
 -(BOOL)shouldContinueProcessing
 {
-    return YES;
+    return !_refreshPressed;
 }
 
 -(void) updateProgressToPercent:(NSNumber *)percent
 {
     self.progressBar.progress = [percent floatValue];
+}
+
+- (IBAction)refreshButtonPressed:(id)sender {
+    NSIndexPath *currentIndexPath = self.collectionView.indexPathsForVisibleItems[0];
+    ITDetailImageCell *cell = (ITDetailImageCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+    cell.imageView.image = [_imageSource imageForCellAtIndexPath:currentIndexPath];
+    self.progressBar.progress = 0;
+    
+    _refreshPressed = YES;
 }
 @end

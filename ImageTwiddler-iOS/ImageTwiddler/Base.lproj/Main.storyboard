@@ -9,7 +9,7 @@
             <objects>
                 <collectionViewController autoresizesArchivedViewToFullSize="NO" id="0vj-bp-yWt" customClass="ITImageSelectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="Ti0-mO-Rnk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="nZY-AP-XbW">
@@ -61,12 +61,16 @@
                         <viewControllerLayoutGuide type="bottom" id="PGQ-ae-xjh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="4re-uw-JmL">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uaa-Ca-9qL">
-                                <rect key="frame" x="0.0" y="13" width="320" height="482"/>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uaa-Ca-9qL">
+                                <rect key="frame" x="0.0" y="13" width="320" height="394"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="394" id="BY2-RH-equ"/>
+                                    <constraint firstAttribute="width" constant="320" id="oU0-HE-CaE"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="6" minimumInteritemSpacing="6" id="Csj-IA-DMo">
                                     <size key="itemSize" width="314" height="325"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -75,7 +79,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DetailImageCell" id="GYe-MS-Y6A" customClass="ITDetailImageCell">
-                                        <rect key="frame" x="3" y="89" width="314" height="325"/>
+                                        <rect key="frame" x="3" y="45" width="314" height="325"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="314" height="325"/>
@@ -99,7 +103,7 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cNd-hl-8TN">
-                                <rect key="frame" x="0.0" y="477" width="320" height="40"/>
+                                <rect key="frame" x="0.0" y="389" width="320" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gaussian Blur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0d-oQ-LkW">
@@ -125,10 +129,14 @@
                                     <constraint firstAttribute="width" constant="320" id="hop-z5-GSo"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGV-Kp-nxr">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGV-Kp-nxr">
+                                <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="uHM-GE-gQb"/>
+                                    <constraint firstAttribute="width" constant="320" id="veT-Yd-gH6"/>
+                                </constraints>
                                 <items>
                                     <barButtonItem image="effectsIcon" id="1Z6-xb-tNU">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -157,30 +165,41 @@
                                 <rect key="frame" x="11" y="13" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
-                                <state key="normal" title="&lt;">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="backButton"/>
                                 <connections>
                                     <action selector="backButtonPressed:" destination="7Z9-JR-O00" eventType="touchUpInside" id="jAf-Oa-Dbv"/>
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TQe-Qx-bVq">
-                                <rect key="frame" x="51" y="436" width="218" height="2"/>
+                                <rect key="frame" x="51" y="387" width="218" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="AI9-Wi-9kj"/>
                                     <constraint firstAttribute="width" constant="218" id="Gg5-yk-vT3"/>
                                 </constraints>
                             </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="elf-30-7NQ">
+                                <rect key="frame" x="274" y="13" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="refreshButton"/>
+                                <connections>
+                                    <action selector="refreshButtonPressed:" destination="7Z9-JR-O00" eventType="touchUpInside" id="Jlz-ep-YZ5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="iGV-Kp-nxr" secondAttribute="bottom" id="7pi-qe-IPK"/>
+                            <constraint firstItem="uaa-Ca-9qL" firstAttribute="top" secondItem="4re-uw-JmL" secondAttribute="top" constant="13" id="PkA-ff-zeI"/>
+                            <constraint firstItem="TQe-Qx-bVq" firstAttribute="top" secondItem="4re-uw-JmL" secondAttribute="top" constant="387" id="RIX-Of-eUM"/>
                             <constraint firstAttribute="bottom" secondItem="cNd-hl-8TN" secondAttribute="bottom" constant="51" id="b2J-C3-z5g"/>
-                            <constraint firstItem="TQe-Qx-bVq" firstAttribute="top" secondItem="4re-uw-JmL" secondAttribute="top" constant="436" id="c2X-Wi-7XG"/>
                             <constraint firstItem="cNd-hl-8TN" firstAttribute="leading" secondItem="4re-uw-JmL" secondAttribute="leading" id="dML-de-sRw"/>
+                            <constraint firstItem="uaa-Ca-9qL" firstAttribute="leading" secondItem="4re-uw-JmL" secondAttribute="leading" id="gbl-ca-Lfc"/>
                             <constraint firstItem="TQe-Qx-bVq" firstAttribute="leading" secondItem="4re-uw-JmL" secondAttribute="leading" constant="51" id="iYs-GV-NjW"/>
+                            <constraint firstItem="iGV-Kp-nxr" firstAttribute="leading" secondItem="4re-uw-JmL" secondAttribute="leading" id="w8A-kc-yny"/>
                         </constraints>
                     </view>
                     <connections>
@@ -189,6 +208,7 @@
                         <outlet property="effectLabel" destination="o0d-oQ-LkW" id="NOA-Ot-ydf"/>
                         <outlet property="effectsBarButton" destination="1Z6-xb-tNU" id="mZc-ut-2Pr"/>
                         <outlet property="progressBar" destination="TQe-Qx-bVq" id="eLH-Nh-fZi"/>
+                        <outlet property="refreshButton" destination="elf-30-7NQ" id="Xr7-13-iLh"/>
                         <outlet property="threadCountLabel" destination="OBd-yi-R1E" id="chJ-Ok-uxI"/>
                         <outlet property="threadsBarButton" destination="cnX-r9-ZiG" id="TGk-Pg-y82"/>
                     </connections>
@@ -199,12 +219,14 @@
         </scene>
     </scenes>
     <resources>
+        <image name="backButton" width="25" height="25"/>
         <image name="effectsIcon" width="30" height="30"/>
+        <image name="refreshButton" width="25" height="25"/>
         <image name="threadsIcon" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
 </document>
