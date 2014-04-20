@@ -8,6 +8,7 @@
 
 #import "ITImageSelectionViewController.h"
 #import "EffectsConstants.h"
+#import "ITImageCell.h"
 
 
 @interface ITImageSelectionViewController ()
@@ -32,7 +33,13 @@
     [super viewDidLoad];
     
     [self initializeImages];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
+    //[self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,7 +53,7 @@
     _images = [[NSMutableArray alloc] init];
     for (int i = 0; i < NumberOfImages; i++)
     {
-        NSString *imageName = [NSString stringWithFormat:@"image%d", i ];
+        NSString *imageName = [NSString stringWithFormat:@"image%d.png", i ];
         UIImage *image = [UIImage imageNamed:imageName];
         [_images addObject:image];
     }
@@ -64,6 +71,27 @@
     }];
 }
 
+#pragma mark UICollectionView datasource methods
+
+-(NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+-(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return [_images count];
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    ITImageCell * cell = (ITImageCell *)[collectionView dequeueReusableCellWithReuseIdentifier:ImageCellIdentifier forIndexPath:indexPath];
+    
+    cell.imageView.image = _images[indexPath.row];
+    
+    return cell;
+}
+
 /*
 #pragma mark - Navigation
 
@@ -74,5 +102,6 @@
     // Pass the selected object to the new view controller.
 }
 */
+
 
 @end

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * ImageCellIdentifier = @"ImageCell";
+
 @interface ITImageCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
