@@ -259,6 +259,15 @@ static NSString * EmbossEffectTitle = @"Emboss";
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), source);
     CGContextRelease(context);
     
+    
+    Byte * destData = malloc(height * width * 4);
+    context = CGBitmapContextCreate(destData, width, height,
+                                                 bitsPerComponent, bytesPerRow, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), source);
+    CGContextRelease(context);
+
+    
     dispatch_group_t myGroup = dispatch_group_create();
     
     int byteIndex = 0;
@@ -273,6 +282,7 @@ static NSString * EmbossEffectTitle = @"Emboss";
                 
                 double sobelA,sobelB,sobelC,sobelD,sobelE,sobelF;
                 
+                //upperleft pixel
                 if(x == 0 || y == 0)
                 {
                     sobelA = 0;
@@ -282,6 +292,7 @@ static NSString * EmbossEffectTitle = @"Emboss";
                     sobelA = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex-(width*4+4)];
                 }
                 
+                //left pixel
                 if(x == 0)
                 {
                     sobelB = 0;
@@ -291,6 +302,7 @@ static NSString * EmbossEffectTitle = @"Emboss";
                     sobelB = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex-4];
                 }
                 
+                //botomleft pixel
                 if( x == 0 || y == (height-1) )
                 {
                     sobelC = 0;
@@ -300,6 +312,7 @@ static NSString * EmbossEffectTitle = @"Emboss";
                     sobelC = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex+(width*4-4)];
                 }
                 
+                //upperright pixel
                 if( x == (width-1) || y == 0)
                 {
                     sobelD = 0;
@@ -309,6 +322,7 @@ static NSString * EmbossEffectTitle = @"Emboss";
                     sobelD = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex-(width*4-4)];
                 }
                 
+                //right pixel
                 if(x == (width-1))
                 {
                     sobelE = 0;
@@ -318,6 +332,7 @@ static NSString * EmbossEffectTitle = @"Emboss";
                     sobelE = [ITImageProcessor GetMono:rawData withIndex: threadByteIndex+4];
                 }
                 
+                //right pixel
                 if(x == (width-1) || y == (height-1))
                 {
                     sobelF = 0;
@@ -331,20 +346,16 @@ static NSString * EmbossEffectTitle = @"Emboss";
                 double sobel = -sobelA - 2 * sobelB - sobelC +
                 sobelD + 2 * sobelE + sobelF;
                 
-//                //double sobel = -GetMono(x-1, y-1) - 2 * GetMono(x-1, y) - GetMono(x-1, y+1) +
-//                //GetMono(x+1, y-1) + 2 * GetMono(x+1, y) + GetMono(x+1, y+1);
-//                
-
                 sobel = sobel + 128;
-               
+                
                 if(sobel < 0)
                     sobel = 0;
                 else if(sobel > 255)
                     sobel = 255;
 
-                rawData[threadByteIndex] = sobel;
-                rawData[threadByteIndex+1] = sobel;
-                rawData[threadByteIndex+2] = sobel;
+                destData[threadByteIndex] = sobel ;
+                destData[threadByteIndex+1] = sobel;
+                destData[threadByteIndex+2] = sobel;
                 
                 threadByteIndex += 4;
             }
@@ -355,10 +366,11 @@ static NSString * EmbossEffectTitle = @"Emboss";
     }
     
     
+    
     dispatch_group_wait(myGroup, DISPATCH_TIME_FOREVER);
     
     CGContextRef ctx;
-    ctx = CGBitmapContextCreate(rawData,
+    ctx = CGBitmapContextCreate(destData,
                                 width,
                                 height,
                                 8,
@@ -369,7 +381,8 @@ static NSString * EmbossEffectTitle = @"Emboss";
     CGColorSpaceRelease(colorSpace);
     
     CGImageRef imageRef = CGBitmapContextCreateImage (ctx);
-    
+    free(rawData);
+    free(destData);
     
     return [[ITRenderedImageObject alloc] initWithImage:imageRef
                                            calcDuration:0
