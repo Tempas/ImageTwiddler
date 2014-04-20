@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ITDetailImageViewController.h"
 
-@interface ITImageSelectionViewController : UICollectionViewController
+@interface ITImageSelectionViewController : UICollectionViewController <ITDetailImageControllerImageSource>
 
 @end
