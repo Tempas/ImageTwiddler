@@ -15,7 +15,8 @@ typedef enum
     ITImageEffectGaussianBlurRadius5,
     ITImageEffectGaussianBlurRadius10,
     ITImageEffectGaussianBlurRadius15,
-    ITImageEffectEmboss
+    ITImageEffectEmboss,
+    ITImageEffectGaussianGPU
     
 } ITImageEffect;
 

@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>30B9615C-91B3-4FEA-94E3-E80518FC9AC2</string>
+	<string>7D532A88-43C5-4257-B88D-58F5A2CAEBE8</string>
 	<key>IDESourceControlProjectName</key>
 	<string>ImageTwiddler</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>AB1F744D-21E5-44CF-A422-3FE7A4662710</key>
-		<string>https://github.com/Tempas/ImageTwiddler.git</string>
+		<key>6428751A-79D2-45AC-B182-FA014E37192C</key>
+		<string>https://github.com/Tempas/ImageTwiddler</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ImageTwiddler-iOS/ImageTwiddler/ImageTwiddler.xcodeproj/project.xcworkspace</string>
+	<string>ImageTwiddler-iOS/ImageTwiddler.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>AB1F744D-21E5-44CF-A422-3FE7A4662710</key>
-		<string>../../../..</string>
+		<key>6428751A-79D2-45AC-B182-FA014E37192C</key>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/Tempas/ImageTwiddler.git</string>
+	<string>https://github.com/Tempas/ImageTwiddler</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>AB1F744D-21E5-44CF-A422-3FE7A4662710</string>
+	<string>6428751A-79D2-45AC-B182-FA014E37192C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>AB1F744D-21E5-44CF-A422-3FE7A4662710</string>
+			<string>6428751A-79D2-45AC-B182-FA014E37192C</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ImageTwiddler</string>
 		</dict>
