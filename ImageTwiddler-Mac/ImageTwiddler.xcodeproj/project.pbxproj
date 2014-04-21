@@ -23,6 +23,7 @@
 		941F8DA81902D69000CF2DD5 /* ITRenderedImageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DA71902D69000CF2DD5 /* ITRenderedImageObject.m */; };
 		941F8DAC1902D6A800CF2DD5 /* ITImageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DAB1902D6A800CF2DD5 /* ITImageProcessor.m */; };
 		941F8DF21902DB2100CF2DD5 /* NSImage+CGImageRefHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F8DF11902DB2100CF2DD5 /* NSImage+CGImageRefHelper.m */; };
+		E9D123131904C58C00CC262C /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D123121904BF4500CC262C /* GPUImage.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +33,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 941C244718FDC82A0054B439;
 			remoteInfo = ImageTwiddler;
+		};
+		E9D123111904BF4500CC262C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9D1230D1904BF4500CC262C /* GPUImageMac.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BCA3F31C17239B6500E28AEC;
+			remoteInfo = GPUImage;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -67,6 +75,7 @@
 		941F8DAD1902D6E400CF2DD5 /* ITImageEffectProgressListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITImageEffectProgressListener.h; path = "../../ImageProcessor/Progress Listener Protocol/ITImageEffectProgressListener.h"; sourceTree = "<group>"; };
 		941F8DF01902DB2100CF2DD5 /* NSImage+CGImageRefHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+CGImageRefHelper.h"; sourceTree = "<group>"; };
 		941F8DF11902DB2100CF2DD5 /* NSImage+CGImageRefHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+CGImageRefHelper.m"; sourceTree = "<group>"; };
+		E9D1230D1904BF4500CC262C /* GPUImageMac.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImageMac.xcodeproj; path = ../gpuframework/GPUImageMac.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9D123131904C58C00CC262C /* GPUImage.framework in Frameworks */,
 				941C244C18FDC82A0054B439 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,6 +122,7 @@
 		941C244A18FDC82A0054B439 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E9D1230D1904BF4500CC262C /* GPUImageMac.xcodeproj */,
 				941C244B18FDC82A0054B439 /* Cocoa.framework */,
 				941C246A18FDC82A0054B439 /* XCTest.framework */,
 				941C244D18FDC82A0054B439 /* Other Frameworks */,
@@ -231,6 +242,14 @@
 			name = "Progress Listener Protocol";
 			sourceTree = "<group>";
 		};
+		E9D1230E1904BF4500CC262C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9D123121904BF4500CC262C /* GPUImage.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -295,6 +314,12 @@
 			mainGroup = 941C243F18FDC82A0054B439;
 			productRefGroup = 941C244918FDC82A0054B439 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E9D1230E1904BF4500CC262C /* Products */;
+					ProjectRef = E9D1230D1904BF4500CC262C /* GPUImageMac.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				941C244718FDC82A0054B439 /* ImageTwiddler */,
@@ -302,6 +327,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E9D123121904BF4500CC262C /* GPUImage.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GPUImage.framework;
+			remoteRef = E9D123111904BF4500CC262C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		941C244618FDC82A0054B439 /* Resources */ = {

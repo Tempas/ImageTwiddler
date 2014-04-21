@@ -19,16 +19,18 @@ static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 static NSString * EmbossEffectTitle = @"Emboss";
 
 
-
 @interface ITImageProcessor()
 
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger) threads andProgressListener:(NSObject<ITImageEffectProgressListener>  *)listener ;
 +(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger) threads andProgressListener:(NSObject <ITImageEffectProgressListener> *)listener;
 +(ITRenderedImageObject *) ApplyEmbossToImage:(CGImageRef)source withThreads:(NSInteger) threads andProgressListener:(NSObject <ITImageEffectProgressListener> *)listener;
+
+
 +(NSInteger) GetMono:(Byte *)rawData withIndex: (NSInteger) index;
 @end
 
 @implementation ITImageProcessor
+
 
 +(ITRenderedImageObject *) ApplyEffect:(ITImageEffect)effect toSourceImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
@@ -79,6 +81,12 @@ static NSString * EmbossEffectTitle = @"Emboss";
 
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
+    //Ask for the GPU to do it
+    if(threads == -1)
+    {
+        return [ITImageProcessor ApplyGaussianBlurUsingGPU:source withRadius:radius];
+    }
+    
     NSInteger width = CGImageGetWidth(source);
     NSInteger height = CGImageGetHeight(source);
     
@@ -178,6 +186,12 @@ static NSString * EmbossEffectTitle = @"Emboss";
 
 +(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
+    //Ask for the GPU to do it
+    if(threads == -1)
+    {
+        return [ITImageProcessor ApplyBlackAndWhiteUsingGPU:source];
+    }
+    
     // Thanks: http://brandontreb.com/image-manipulation-retrieving-and-updating-pixel-values-for-a-uiimage/
 
     NSInteger width = CGImageGetWidth(source);
@@ -242,7 +256,11 @@ static NSString * EmbossEffectTitle = @"Emboss";
 
 +(ITRenderedImageObject *) ApplyEmbossToImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
-    // Thanks: http://brandontreb.com/image-manipulation-retrieving-and-updating-pixel-values-for-a-uiimage/
+    //Ask for the GPU to do it
+    if(threads == -1)
+    {
+        return [ITImageProcessor ApplyEmbossUsingGPU:source];
+    }
     
     NSInteger width = CGImageGetWidth(source);
     NSInteger height = CGImageGetHeight(source);
@@ -389,6 +407,60 @@ static NSString * EmbossEffectTitle = @"Emboss";
                                         numberOfThreads:threads];
 }
 
++(ITRenderedImageObject *) ApplyGaussianBlurUsingGPU: (CGImageRef)source withRadius: (NSInteger)radius
+{
+    GPUImageGaussianBlurFilter *selectedFilter;
+    selectedFilter = [[GPUImageGaussianBlurFilter alloc] init];
+    selectedFilter.blurRadiusInPixels = radius;
+    
+    return [ITImageProcessor ApplyEffectUsingGPU:source withEffect:selectedFilter];
+}
+
++(ITRenderedImageObject *) ApplyBlackAndWhiteUsingGPU: (CGImageRef)source
+{
+    GPUImageGrayscaleFilter *selectedFilter;
+    selectedFilter = [[GPUImageGrayscaleFilter alloc] init];
+    
+    return [ITImageProcessor ApplyEffectUsingGPU:source withEffect:selectedFilter];
+}
+
++(ITRenderedImageObject *) ApplyEmbossUsingGPU: (CGImageRef)source
+{
+    GPUImageEmbossFilter *selectedFilter;
+    selectedFilter = [[GPUImageEmbossFilter alloc] init];
+    selectedFilter.intensity = 4.0;
+    
+    return [ITImageProcessor ApplyEffectUsingGPU:source withEffect:selectedFilter];
+}
+
++(ITRenderedImageObject *) ApplyEffectUsingGPU: (CGImageRef)source withEffect:(GPUImageFilter*) selectedFilter
+{
+#if TARGET_OS_IPHONE
+    UIImage* myImage = [[UIImage alloc] initWithCGImage:source];
+    UIImage *filteredImage = [selectedFilter imageByFilteringImage:myImage];
+    CGImageRef cgImage = filteredImage.CGImage;
+#else
+    NSImage * selectedImage = [[NSImage alloc] initWithCGImage:source size: NSZeroSize];
+    NSImage *filteredImage = [selectedFilter imageByFilteringImage:selectedImage];
+    
+    NSSize imageSize = [filteredImage size];
+    
+    CGContextRef bitmapContext = CGBitmapContextCreate(NULL, imageSize.width, imageSize.height, 8, 0, [[NSColorSpace genericRGBColorSpace] CGColorSpace], kCGBitmapByteOrder32Host|kCGImageAlphaPremultipliedFirst);
+    
+    [NSGraphicsContext saveGraphicsState];
+    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:bitmapContext flipped:NO]];
+    [filteredImage drawInRect:NSMakeRect(0, 0, imageSize.width, imageSize.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    [NSGraphicsContext restoreGraphicsState];
+    
+    CGImageRef cgImage = CGBitmapContextCreateImage(bitmapContext);
+    CGContextRelease(bitmapContext);
+    
+#endif
+    return [[ITRenderedImageObject alloc] initWithImage:cgImage
+                                           calcDuration:0
+                                        numberOfThreads:1];
+}
+
 +(NSInteger) GetMono:(Byte *)rawData withIndex: (NSInteger) index
 {
     return (rawData[index] + rawData[index+1] + rawData[index+2]) / 3;
@@ -407,11 +479,14 @@ static NSString * EmbossEffectTitle = @"Emboss";
 
 +(NSArray *) ThreadCountsTitleArray
 {
-    return @[@"1", @"2", @"4", @"8", @"16", @"32"];
+    return @[@"1", @"2", @"4", @"8", @"16", @"32", @"GPU"];
 }
 
 +(NSInteger) NumberOfThreadsForThreadIndexSelected:(NSInteger)index
 {
+    if(index == 6){
+        return -1;
+    }
     return pow(2, index);
 }
 
