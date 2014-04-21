@@ -15,9 +15,7 @@ typedef enum
     ITImageEffectGaussianBlurRadius5,
     ITImageEffectGaussianBlurRadius10,
     ITImageEffectGaussianBlurRadius15,
-    ITImageEffectEmboss,
-    ITImageEffectGaussianGPU
-    
+    ITImageEffectEmboss    
 } ITImageEffect;
 
 static NSInteger NumberOfImages = 12;

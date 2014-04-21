@@ -17,8 +17,6 @@ static NSInteger bitsPerComponent = 8;
 static NSString * GaussianBlurEffectTitle = @"Gaussian Blur with Radius:";
 static NSString * BlackAndWhiteEffectTitle = @"Black and White";
 static NSString * EmbossEffectTitle = @"Emboss";
-static NSString * GaussianBlurGPUTitle = @"Gaussian Blur with GPU";
-
 
 
 @interface ITImageProcessor()
@@ -26,7 +24,7 @@ static NSString * GaussianBlurGPUTitle = @"Gaussian Blur with GPU";
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger) threads andProgressListener:(NSObject<ITImageEffectProgressListener>  *)listener ;
 +(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger) threads andProgressListener:(NSObject <ITImageEffectProgressListener> *)listener;
 +(ITRenderedImageObject *) ApplyEmbossToImage:(CGImageRef)source withThreads:(NSInteger) threads andProgressListener:(NSObject <ITImageEffectProgressListener> *)listener;
-+(ITRenderedImageObject *) ApplyGaussianBlurToImageGPU;
+
 
 +(NSInteger) GetMono:(Byte *)rawData withIndex: (NSInteger) index;
 @end
@@ -60,10 +58,6 @@ static NSString * GaussianBlurGPUTitle = @"Gaussian Blur with GPU";
             returnObject = [ITImageProcessor ApplyEmbossToImage:source withThreads:threads andProgressListener:listener];
             break;
             
-        case ITImageEffectGaussianGPU:
-            returnObject = [self ApplyGaussianBlurToImageGPU:source];
-            break;
-            
         default:
             break;
     }
@@ -87,6 +81,12 @@ static NSString * GaussianBlurGPUTitle = @"Gaussian Blur with GPU";
 
 +(ITRenderedImageObject *) ApplyGaussianBlurToImage:(CGImageRef)source withRadius:(NSInteger)radius andThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
+    //Ask for the GPU to do it
+    if(threads == -1)
+    {
+        return [ITImageProcessor ApplyGaussianBlurUsingGPU:source withRadius:radius];
+    }
+    
     NSInteger width = CGImageGetWidth(source);
     NSInteger height = CGImageGetHeight(source);
     
@@ -186,6 +186,12 @@ static NSString * GaussianBlurGPUTitle = @"Gaussian Blur with GPU";
 
 +(ITRenderedImageObject *) ApplyBlackAndWhiteToImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
+    //Ask for the GPU to do it
+    if(threads == -1)
+    {
+        return [ITImageProcessor ApplyBlackAndWhiteUsingGPU:source];
+    }
+    
     // Thanks: http://brandontreb.com/image-manipulation-retrieving-and-updating-pixel-values-for-a-uiimage/
 
     NSInteger width = CGImageGetWidth(source);
@@ -250,7 +256,11 @@ static NSString * GaussianBlurGPUTitle = @"Gaussian Blur with GPU";
 
 +(ITRenderedImageObject *) ApplyEmbossToImage:(CGImageRef)source withThreads:(NSInteger)threads andProgressListener:(NSObject<ITImageEffectProgressListener> *)listener
 {
-    // Thanks: http://brandontreb.com/image-manipulation-retrieving-and-updating-pixel-values-for-a-uiimage/
+    //Ask for the GPU to do it
+    if(threads == -1)
+    {
+        return [ITImageProcessor ApplyEmbossUsingGPU:source];
+    }
     
     NSInteger width = CGImageGetWidth(source);
     NSInteger height = CGImageGetHeight(source);
@@ -397,16 +407,39 @@ static NSString * GaussianBlurGPUTitle = @"Gaussian Blur with GPU";
                                         numberOfThreads:threads];
 }
 
-+(ITRenderedImageObject *) ApplyGaussianBlurToImageGPU: (CGImageRef)source
++(ITRenderedImageObject *) ApplyGaussianBlurUsingGPU: (CGImageRef)source withRadius: (NSInteger)radius
+{
+    GPUImageGaussianBlurFilter *selectedFilter;
+    selectedFilter = [[GPUImageGaussianBlurFilter alloc] init];
+    selectedFilter.blurRadiusInPixels = radius;
+    
+    return [ITImageProcessor ApplyEffectUsingGPU:source withEffect:selectedFilter];
+}
+
++(ITRenderedImageObject *) ApplyBlackAndWhiteUsingGPU: (CGImageRef)source
+{
+    GPUImageGrayscaleFilter *selectedFilter;
+    selectedFilter = [[GPUImageGrayscaleFilter alloc] init];
+    
+    return [ITImageProcessor ApplyEffectUsingGPU:source withEffect:selectedFilter];
+}
+
++(ITRenderedImageObject *) ApplyEmbossUsingGPU: (CGImageRef)source
+{
+    GPUImageEmbossFilter *selectedFilter;
+    selectedFilter = [[GPUImageEmbossFilter alloc] init];
+    selectedFilter.intensity = 4.0;
+    
+    return [ITImageProcessor ApplyEffectUsingGPU:source withEffect:selectedFilter];
+}
+
++(ITRenderedImageObject *) ApplyEffectUsingGPU: (CGImageRef)source withEffect:(GPUImageFilter*) selectedFilter
 {
 #if TARGET_OS_IPHONE
-    return [ITRenderedImageObject alloc];
+    UIImage* myImage = [[UIImage alloc] initWithCGImage:source];
+    UIImage *filteredImage = [selectedFilter imageByFilteringImage:myImage];
+    CGImageRef cgImage = filteredImage.CGImage;
 #else
-    
-    GPUImageFilter *selectedFilter;
-    selectedFilter = [[GPUImageGaussianBlurFilter alloc] init];
-    
-    
     NSImage * selectedImage = [[NSImage alloc] initWithCGImage:source size: NSZeroSize];
     NSImage *filteredImage = [selectedFilter imageByFilteringImage:selectedImage];
     
@@ -422,12 +455,10 @@ static NSString * GaussianBlurGPUTitle = @"Gaussian Blur with GPU";
     CGImageRef cgImage = CGBitmapContextCreateImage(bitmapContext);
     CGContextRelease(bitmapContext);
     
+#endif
     return [[ITRenderedImageObject alloc] initWithImage:cgImage
                                            calcDuration:0
                                         numberOfThreads:1];
-
-#endif
-
 }
 
 +(NSInteger) GetMono:(Byte *)rawData withIndex: (NSInteger) index
@@ -443,16 +474,19 @@ static NSString * GaussianBlurGPUTitle = @"Gaussian Blur with GPU";
     NSString *gaussianBlurRadius10Title = [GaussianBlurEffectTitle stringByAppendingString:@" 10"];
     NSString *gaussianBlurRadius15Title = [GaussianBlurEffectTitle stringByAppendingString:@" 15"];
     
-    return @[BlackAndWhiteEffectTitle, gaussianBlurRadius5Title, gaussianBlurRadius10Title, gaussianBlurRadius15Title,EmbossEffectTitle ,GaussianBlurGPUTitle];
+    return @[BlackAndWhiteEffectTitle, gaussianBlurRadius5Title, gaussianBlurRadius10Title, gaussianBlurRadius15Title,EmbossEffectTitle];
 }
 
 +(NSArray *) ThreadCountsTitleArray
 {
-    return @[@"1", @"2", @"4", @"8", @"16", @"32"];
+    return @[@"1", @"2", @"4", @"8", @"16", @"32", @"GPU"];
 }
 
 +(NSInteger) NumberOfThreadsForThreadIndexSelected:(NSInteger)index
 {
+    if(index == 6){
+        return -1;
+    }
     return pow(2, index);
 }
 
