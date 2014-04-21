@@ -72,6 +72,7 @@
     _refreshPressed = NO;
     
     [self revealTimeContainer:NO withAnimation:NO];
+    [self revealProgressBar:NO withAnimation:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -152,6 +153,7 @@
 
 - (IBAction)renderPressed:(id)sender {
     _refreshPressed = NO;
+    [self revealProgressBar:YES withAnimation:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         NSIndexPath *currentIndexPath = self.collectionView.indexPathsForVisibleItems[0];
@@ -161,11 +163,10 @@
         ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:_imageEffect toSourceImage:selectedImage.CGImage withThreads:_numberOfThreads andProgressListener:self];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            
             self.timeLabel.text = result.calculationDurationText;
             [self revealTimeContainer:YES withAnimation:YES];
+            [self revealProgressBar:NO withAnimation:YES];
             self.progressBar.progress = 1;
-            self.progressBar.progress = 0;
             
             if (!_refreshPressed)
             {
@@ -211,17 +212,38 @@
     self.progressBar.progress = 0;
     
     [self revealTimeContainer:NO withAnimation:YES];
+    [self revealProgressBar:NO withAnimation:YES];
     
     _refreshPressed = YES;
 }
 
 -(void) revealTimeContainer:(BOOL)reveal withAnimation:(BOOL)animation
 {
-    double endAlpha = reveal ? 1 : 0;
+    double endTimeContainerAlpha = reveal ? 1 : 0;
     
     [UIView animateWithDuration: animation ? .3 : 0
                      animations:^{
-                         self.timeContainerView.alpha = endAlpha;
+                         self.timeContainerView.alpha = endTimeContainerAlpha;
+                     }];
+
+}
+
+-(void) revealProgressBar:(BOOL)reveal withAnimation: (BOOL) animation
+{
+    double endProgressAlpha = reveal ? 1 : 0;
+    
+    if (reveal)
+    {
+        self.progressBar.alpha = 0;
+    }
+
+    [UIView animateWithDuration: animation ? .3 : 0
+                     animations:^{
+                         self.progressBar.alpha = endProgressAlpha;
+                     }
+                     completion:^(BOOL complete){
+                   
+                     
                      }];
 
 }
