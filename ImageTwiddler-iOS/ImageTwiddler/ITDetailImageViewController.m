@@ -30,6 +30,10 @@
 @property (nonatomic) ITImageEffect imageEffect;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 
+@property (nonatomic) BOOL refreshPressed;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UIView *timeContainerView;
+
 @end
 
 @implementation ITDetailImageViewController
@@ -49,6 +53,8 @@
     // Do any additional setup after loading the view.
     self.backButton.layer.cornerRadius = self.backButton.frame.size.width/2;
     
+    self.refreshButton.layer.cornerRadius = self.refreshButton.frame.size.width/2;
+    
     self.threadCountLabel.layer.cornerRadius = self.threadCountLabel.frame.size.height/2;
     self.effectLabel.layer.cornerRadius = self.effectLabel.frame.size.height/2;
     
@@ -62,6 +68,10 @@
     _threadCountLabel.text = [_threadTitleArray[0] stringByAppendingString:@" Threads"];
     _numberOfThreads = [ITImageProcessor NumberOfThreadsForThreadIndexSelected:0];
     _imageEffect = 0;
+    
+    _refreshPressed = NO;
+    
+    [self revealTimeContainer:NO withAnimation:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -120,7 +130,16 @@
     
     cell.imageView.image = [_imageSource imageForCellAtIndexPath:indexPath];
     
+    cell.imageSizeLabel.text = [NSString stringWithFormat:@"%d x %d", (int)cell.imageView.image.size.width, (int)cell.imageView.image.size.height ];
+    
     return cell;
+}
+
+#pragma mark UICollectionView delegate methods
+
+-(void) collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self revealTimeContainer:NO withAnimation:YES];
 }
 
 - (IBAction)effectsPressed:(id)sender {
@@ -132,19 +151,27 @@
 }
 
 - (IBAction)renderPressed:(id)sender {
+    _refreshPressed = NO;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         NSIndexPath *currentIndexPath = self.collectionView.indexPathsForVisibleItems[0];
-        UIImage *selectedImage = [_imageSource imageForCellAtIndexPath: currentIndexPath];
+        ITDetailImageCell *cell = (ITDetailImageCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+        UIImage *selectedImage = cell.imageView.image;
         
         ITRenderedImageObject * result = [ITImageProcessor ApplyEffect:_imageEffect toSourceImage:selectedImage.CGImage withThreads:_numberOfThreads andProgressListener:self];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            ITDetailImageCell *cell = (ITDetailImageCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+            
+            self.timeLabel.text = result.calculationDurationText;
+            [self revealTimeContainer:YES withAnimation:YES];
             self.progressBar.progress = 1;
             self.progressBar.progress = 0;
             
-            cell.imageView.image = [[UIImage alloc] initWithCGImage: result.image];
+            if (!_refreshPressed)
+            {
+                cell.imageView.image = [[UIImage alloc] initWithCGImage: result.image];
+            }
+
         });
     });
 }
@@ -169,11 +196,33 @@
 
 -(BOOL)shouldContinueProcessing
 {
-    return YES;
+    return !_refreshPressed;
 }
 
 -(void) updateProgressToPercent:(NSNumber *)percent
 {
     self.progressBar.progress = [percent floatValue];
+}
+
+- (IBAction)refreshButtonPressed:(id)sender {
+    NSIndexPath *currentIndexPath = self.collectionView.indexPathsForVisibleItems[0];
+    ITDetailImageCell *cell = (ITDetailImageCell *)[self.collectionView cellForItemAtIndexPath:currentIndexPath];
+    cell.imageView.image = [_imageSource imageForCellAtIndexPath:currentIndexPath];
+    self.progressBar.progress = 0;
+    
+    [self revealTimeContainer:NO withAnimation:YES];
+    
+    _refreshPressed = YES;
+}
+
+-(void) revealTimeContainer:(BOOL)reveal withAnimation:(BOOL)animation
+{
+    double endAlpha = reveal ? 1 : 0;
+    
+    [UIView animateWithDuration: animation ? .3 : 0
+                     animations:^{
+                         self.timeContainerView.alpha = endAlpha;
+                     }];
+
 }
 @end

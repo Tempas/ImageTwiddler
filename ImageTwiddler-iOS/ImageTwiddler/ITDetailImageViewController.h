@@ -16,9 +16,11 @@
 
 @end
 
-@interface ITDetailImageViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate, ITImageEffectProgressListener>
+@interface ITDetailImageViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIActionSheetDelegate, ITImageEffectProgressListener, UIScrollViewDelegate>
 
 @property (nonatomic, weak) NSObject <ITDetailImageControllerImageSource> * imageSource;
+@property (weak, nonatomic) IBOutlet UIButton *refreshButton;
+- (IBAction)refreshButtonPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 - (IBAction)backButtonPressed:(id)sender;
